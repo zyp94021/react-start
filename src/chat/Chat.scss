@@ -1,0 +1,30 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+.chat-message {
+  display: flex;
+  .nes-balloon {
+    max-width: 600px;
+    margin: 2rem 2rem;
+  }
+  i {
+    align-self: flex-end;
+  }
+  &.-left {
+    align-self: flex-start;
+  }
+  &.-right {
+    align-self: flex-end;
+  }
+}
+.chat-input-box {
+  display: flex;
+  margin: 0 2px;
+}
+.chat-input {
+  margin-right: 2em;
+}
+.chat-send-btn {
+  width: 10em;
+}

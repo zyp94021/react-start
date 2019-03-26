@@ -19,7 +19,8 @@ module.exports = {
             ? 'style-loader'
             : MiniCssExtractPlugin.loader, // 将 JS 字符串生成为 style 节点
           'css-loader', // 将 CSS 转化成 CommonJS 模块
-          'sass-loader' // 将 Sass 编译成 CSS，默认使用 Node Sass
+          'sass-loader', // 将 Sass 编译成 CSS，默认使用 Node Sass,
+          { loader: 'postcss-loader', options: { plugins: [require('autoprefixer')] } }
         ]
       }
     ]
@@ -32,6 +33,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, 'public/'),
+    host: '0.0.0.0',
     port: 3000,
     publicPath: 'http://localhost:3000/dist/',
     hotOnly: true

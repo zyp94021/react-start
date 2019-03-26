@@ -8,6 +8,19 @@ export default class Input extends Component {
     this.props.sendMessage(this.state.input)
     this.setState({ input: '' })
   }
+  keyDown(event) {
+    switch (event.keyCode) {
+      case 13:
+        this.sendMessage()
+        break
+    }
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.keyDown.bind(this))
+  }
+  componentWillUnMount() {
+    document.removeEventListener('keydown', this.keyDown.bind(this))
+  }
   render() {
     return (
       <div className="chat-input-box">

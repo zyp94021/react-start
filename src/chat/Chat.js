@@ -3,26 +3,20 @@ import Input from './Input'
 import Container from './Container'
 import './nes.css'
 import './Chat.scss'
+import io from 'socket.io-client'
 export default class Chat extends Component {
   constructor(props) {
     super(props)
-    this.ws = new WebSocket('ws://localhost:8001')
-
-    this.ws.onopen = e => {
-      console.log('Connection to server opened')
-    }
-    this.ws.onmessage = event => {
-      console.log('Client received a message', event.data)
-      this.addMessage(event.data)
-    }
-    this.ws.onclose = e => {
-      console.log('connection closed.')
-    }
+    this.ws = io('ws://localhost:3001')
+    this.ws.on('message', data => {
+      console.log(data)
+      this.addMessage(data)
+    })
 
     this.state = { messages: [] }
   }
   sendMessage(message) {
-    this.ws.send(message)
+    this.ws.emit('message', message)
   }
   addMessage(message) {
     const messages = this.state.messages

@@ -4,39 +4,48 @@ import Chat from './chat/Chat'
 import Todo from './todo/Todo'
 import Login from './login/Login'
 import Dialog from './dialog/Dialog'
-const Index = () => <h2>Home</h2>
+import Home from './home/Home'
+import AppData from './AppData'
+import eventBus from './EventBus'
+import Header from './header/Header'
+import App from './App'
 export class IndexRouter extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { token: '' }
+  }
+  componentDidMount() {
+    eventBus.addEventListener('login', token => {
+      AppData.token = token
+      localStorage.setItem('token', AppData.token)
+      this.setState({
+        token: AppData.token
+      })
+    })
+    eventBus.addEventListener('logout', () => {
+      AppData.token = ''
+      localStorage.removeItem('token')
+      this.setState({
+        token: AppData.token
+      })
+    })
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.setState({ token })
+      AppData.token = token
+    }
+  }
+
   render() {
     return (
-        <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/chat/">Chat</Link>
-                </li>
-                <li>
-                  <Link to="/todo/">Todo</Link>
-                </li>
-                <li>
-                  <Link to="/login/">Login</Link>
-                </li>
-                <li>
-                  <Link to="/dialog/">Dialog</Link>
-                </li>
-              </ul>
-            </nav>
-
-            <Route path="/" exact component={Index} />
-            <Route path="/chat/" component={Chat} />
-            <Route path="/todo/" component={Todo} />
-            <Route path="/login/" component={Login} />
-            <Route path="/dialog/" component={Dialog} />
-          </div>
-        </Router>
+      <Router>
+        <Header />
+        <Route path="/" exact component={this.state.token ? Home : Login} />
+        <Route path="/chat/" component={Chat} />
+        <Route path="/todo/" component={Todo} />
+        <Route path="/login/" component={Login} />
+        <Route path="/dialog/" component={Dialog} />
+      </Router>
     )
   }
 }

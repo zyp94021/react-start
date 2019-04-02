@@ -7,10 +7,11 @@ import io from 'socket.io-client'
 export default class Chat extends Component {
   constructor(props) {
     super(props)
-    this.state = { messages: [] }
+    this.state = { messages: [], id: Math.random() }
   }
   sendMessage(message) {
-    this.ws.emit('message', message)
+    const id = this.state.id
+    this.ws.emit('message', { id, message })
   }
   addMessage(message) {
     const messages = this.state.messages
@@ -18,7 +19,7 @@ export default class Chat extends Component {
     this.setState({ messages })
   }
   componentDidMount() {
-    this.ws = io('ws://192.168.123.162:3001')
+    this.ws = io('ws://localhost:3001')
     this.ws.on('message', data => {
       console.log(data)
       this.addMessage(data)
@@ -29,8 +30,8 @@ export default class Chat extends Component {
   }
   render() {
     return (
-      <div>
-        <Container messages={this.state.messages} />
+      <div className="chat-box">
+        <Container messages={this.state.messages} id={this.state.id} />
         <Input sendMessage={this.sendMessage.bind(this)} />
       </div>
     )

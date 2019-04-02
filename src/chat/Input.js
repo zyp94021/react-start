@@ -25,12 +25,12 @@ export default class Input extends Component {
     return (
       <div className="chat-input-box">
         <input
-          className="nes-input chat-input"
+          className="chat-input"
           value={this.state.input}
           onChange={event => this.setState({ input: event.target.value })}
         />
         <button
-          className="nes-btn chat-send-btn"
+          className="chat-send-btn"
           onClick={this.sendMessage.bind(this)}
         >
           按钮

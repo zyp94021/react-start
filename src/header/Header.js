@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import eventBus from '../EventBus'
 import AppData from '../AppData'
 import { withRouter } from 'react-router'
-class THeader extends Component {
+class Header extends Component {
   constructor(props) {
     super(props)
   }
   login() {
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
   logout() {
     eventBus.emitEvent('logout')
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
   render() {
     const loginBtn = <button onClick={this.login.bind(this)}>登录</button>
@@ -19,5 +19,4 @@ class THeader extends Component {
     return <div>{AppData.token ? logoutBtn : loginBtn}</div>
   }
 }
-const Header = withRouter(THeader)
-export default Header
+export default withRouter(Header)

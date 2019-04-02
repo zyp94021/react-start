@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Input from './Input'
 import Container from './Container'
 import './Chat.scss'
-// import './nes.css'
 import io from 'socket.io-client'
 export default class Chat extends Component {
   constructor(props) {
@@ -19,14 +18,16 @@ export default class Chat extends Component {
     this.setState({ messages })
   }
   componentDidMount() {
-    this.ws = io('ws://localhost:3001')
+    console.log('mount')
+    this.ws = io('ws://acgc.fun:3001')
     this.ws.on('message', data => {
       console.log(data)
       this.addMessage(data)
     })
   }
   componentWillUnmount() {
-    this.ws = null
+    console.log('umount')
+    this.ws.off('message')
   }
   render() {
     return (

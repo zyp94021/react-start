@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import eventBus from '../EventBus'
-export default class Login extends Component {
+import { withRouter } from 'react-router'
+class Login extends Component {
   login() {
     eventBus.emitEvent('login', '123')
+    this.props.history.push('/home')
   }
   render() {
     return (
@@ -12,3 +14,4 @@ export default class Login extends Component {
     )
   }
 }
+export default withRouter(Login)

@@ -5,14 +5,10 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom'
-import Chat from './chat/Chat'
-import Todo from './todo/Todo'
 import Login from './login/Login'
-import Dialog from './dialog/Dialog'
 import Home from './home/Home'
 import AppData from './AppData'
 import eventBus from './EventBus'
-import Header from './header/Header'
 import { hot } from 'react-hot-loader'
 import './App.scss'
 
@@ -58,8 +54,8 @@ class App extends Component {
           }
         />
         <Switch>
-          <Route path="/home/" component={Home} />
-          <Route path="/login/" component={Login} />
+          <Route path="/home" component={Home} />
+          <Route path="/login" component={Login} />
         </Switch>
       </Router>
     )

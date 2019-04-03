@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import eventBus from '../EventBus'
-import { withRouter } from 'react-router'
-import './login.scss'
-import { Button, Form, Input, Checkbox, Icon } from 'antd'
-import { login } from '../api/login'
+import React, { Component } from "react"
+import eventBus from "../EventBus"
+import { withRouter } from "react-router"
+import "./login.scss"
+import { Button, Form, Input, Checkbox, Icon } from "antd"
+import { login, register } from "../api/login"
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      password: '',
-      repassword: ''
+      username: "",
+      password: "",
+      repassword: ""
     }
   }
   setUsername = e => {
@@ -27,11 +27,11 @@ class Login extends Component {
     const password = this.state.password
     const result = await login({ username, password })
     if (result.code === 200) {
-      eventBus.emitEvent('login', {
+      eventBus.emitEvent("login", {
         name: this.state.username,
         token: result.token
       })
-      this.props.history.push('/home')
+      this.props.history.push("/home")
     }
   }
   handleSubmit = e => {
@@ -41,41 +41,41 @@ class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <div className="login-container">
-        <Form onSubmit={this.handleSubmit} className="login-form">
+      <div className='login-container'>
+        <Form onSubmit={this.handleSubmit} className='login-form'>
           <Form.Item>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator("userName", {
               rules: [
-                { required: true, message: 'Please input your username!' }
+                { required: true, message: "Please input your username!" }
               ]
             })(
               <Input
                 prefix={
-                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  <Icon type='user' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder="Username"
+                placeholder='Username'
                 onChange={this.setUsername}
               />
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('password', {
+            {getFieldDecorator("password", {
               rules: [
-                { required: true, message: 'Please input your Password!' }
+                { required: true, message: "Please input your Password!" }
               ]
             })(
               <Input
                 prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  <Icon type='lock' style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                type="password"
-                placeholder="Password"
+                type='password'
+                placeholder='Password'
                 onChange={this.setPassword}
               />
             )}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type='primary' htmlType='submit'>
               Log in
             </Button>
           </Form.Item>
@@ -84,4 +84,4 @@ class Login extends Component {
     )
   }
 }
-export default withRouter(Form.create({ name: 'normal_login' })(Login))
+export default withRouter(Form.create({ name: "normal_login" })(Login))

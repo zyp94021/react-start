@@ -22,8 +22,9 @@ class App extends Component {
     this.state = { token: localStorage.getItem('token') }
   }
   componentDidMount() {
-    eventBus.addEventListener('login', token => {
+    eventBus.addEventListener('login', ({ username, token }) => {
       AppData.token = token
+      AppData.username = username
       localStorage.setItem('token', AppData.token)
       this.setState({
         token: AppData.token

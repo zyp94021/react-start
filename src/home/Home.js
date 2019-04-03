@@ -7,7 +7,7 @@ export default class Home extends Component {
       <div className="home content">
         <div className="left">left</div>
         <div className="right">
-          <Chat className="123" />
+          <Chat />
         </div>
       </div>
     )

@@ -25,11 +25,14 @@ class Login extends Component {
   login = async () => {
     const username = this.state.username
     const password = this.state.password
-    const data = { username, password }
-    console.log(await login(data))
-
-    // eventBus.emitEvent('login', '123')
-    // this.props.history.push('/home')
+    const result = await login({ username, password })
+    if (result.code === 200) {
+      eventBus.emitEvent('login', {
+        name: this.state.username,
+        token: result.token
+      })
+      this.props.history.push('/home')
+    }
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -51,7 +54,7 @@ class Login extends Component {
                   <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                 }
                 placeholder="Username"
-                onBlur={this.setUsername}
+                onChange={this.setUsername}
               />
             )}
           </Form.Item>
@@ -67,6 +70,7 @@ class Login extends Component {
                 }
                 type="password"
                 placeholder="Password"
+                onChange={this.setPassword}
               />
             )}
           </Form.Item>

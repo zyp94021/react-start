@@ -19,7 +19,7 @@ export default class Chat extends Component {
   }
   componentDidMount() {
     console.log('mount')
-    this.ws = io('ws://acgc.fun:3001')
+    if (!this.ws) this.ws = io('ws://10.1.100.97:3001')
     this.ws.on('message', data => {
       console.log(data)
       this.addMessage(data)

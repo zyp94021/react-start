@@ -1,6 +1,4 @@
-$lg: 1200px;
-$md: 992px;
-$sm: 768px;
+@import './index.scss';
 html {
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
@@ -25,41 +23,14 @@ p,
 .App {
   margin: 0;
   padding: 0;
-}
-div {
   box-sizing: border-box;
 }
-.home {
-  position: relative;
-  width: 80%;
-  height: 80%;
-  font-size: 1rem;
-  border: 1px solid black;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  @media screen and (max-width: $sm) {
-    width: 100%;
-  }
-  & > .left {
-    position: absolute;
-    width: 300px;
-    top: 0;
-    bottom: 0;
-    background-color: bisque;
-    @media screen and (max-width: $sm) {
-      width: 0px;
-    }
-  }
-  & > .right {
-    position: absolute;
-    left: 300px;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: aqua;
-    @media screen and (max-width: $sm) {
-      left: 0px;
-    }
-  }
+.App {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  width: 100%;
+  max-width: $lg;
+  margin: 0 auto;
 }

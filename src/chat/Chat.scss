@@ -8,34 +8,41 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: auto;
-    .chat-message {
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-      &.left {
-        align-items: flex-start;
-      }
-      &.right {
-        align-items: flex-end;
-      }
-      & .sender {
-        padding: 5px;
-      }
-      & .content {
-        padding: 5px 10px;
-        background-color: #fff;
+    overflow: hidden;
+    .message-list {
+      overflow: auto;
+      .chat-message {
+        display: flex;
+        box-sizing: border-box;
+        height: 70px;
+        flex-direction: column;
+        padding: 10px;
+        &.left {
+          align-items: flex-start;
+        }
+        &.right {
+          align-items: flex-end;
+        }
+        & .sender {
+          padding: 5px;
+        }
+        & .message-content {
+          padding: 5px 10px;
+          background-color: #fff;
+        }
       }
     }
   }
   .chat-input-box {
     display: flex;
+    justify-content: space-between;
     height: 30px;
     .chat-input {
-      margin-right: 2em;
+      width: 100%;
+      margin-right: 30px;
     }
     .chat-send-btn {
-      width: 10em;
+      width: 140px;
     }
   }
 }

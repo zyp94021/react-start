@@ -6,6 +6,7 @@ import io from 'socket.io-client'
 export default class Chat extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = { messages: [], id: Math.random() }
   }
   sendMessage(message) {

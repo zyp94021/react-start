@@ -1,9 +1,9 @@
 import React from 'react'
-import Chat from './chat/Chat'
+import Todo from './todo/Todo'
 import { Icon } from 'antd'
 const router = [
   {
-    path: '1',
+    path: 'menu1',
     title: (
       <span>
         <Icon type="mail" />
@@ -12,9 +12,47 @@ const router = [
     ),
     children: [
       {
-        path: '11',
-        title: '二级导航 1',
-        component: Chat
+        path: 'todo1',
+        title: 'todo1',
+        component: <Todo />
+      },
+      {
+        path: 'todo2',
+        title: 'todo2',
+        component: <Todo />
+      }
+    ]
+  },
+  {
+    path: 'menu2',
+    title: (
+      <span>
+        <Icon type="mail" />
+        <span>一级导航 2</span>
+      </span>
+    ),
+    children: [
+      {
+        path: 'todo3',
+        title: 'todo3',
+        component: <Todo />
+      },
+      {
+        path: 'todo4',
+        title: 'todo4',
+        children: [
+          {
+            path: 'todo5',
+            title: 'todo5',
+            component: <Todo />
+          },
+          {
+            path: 'todo6',
+            title: 'todo6',
+            defaultSelect: true,
+            component: <Todo />
+          }
+        ]
       }
     ]
   }

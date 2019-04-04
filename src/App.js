@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Login from './login/Login'
 import Home from './home/Home'
 import AppData from './AppData'

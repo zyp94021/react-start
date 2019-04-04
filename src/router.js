@@ -44,12 +44,23 @@ const router = [
           {
             path: 'todo5',
             title: 'todo5',
-            component: <Todo />
+            children: [
+              {
+                path: 'todo7',
+                title: 'todo7',
+                component: <Todo />
+              },
+              {
+                path: 'todo8',
+                title: 'todo8',
+                defaultSelect: true,
+                component: <Todo />
+              }
+            ]
           },
           {
             path: 'todo6',
             title: 'todo6',
-            defaultSelect: true,
             component: <Todo />
           }
         ]

@@ -13,6 +13,15 @@ class Home extends Component {
     super(props)
   }
   routerArr = []
+  defaultOpenMenu = []
+  defaultSelectMenu = undefined
+  componentDidMount = () => {
+    this.defaultOpen()
+    this.routerArr = this.defaultOpenKeys()
+    this.props.history.push(
+      `${this.props.match.path}/${this.routerArr.join('/')}`
+    )
+  }
   handleClick = ({ item, key, keyPath }) => {
     this.routerArr = keyPath.reverse()
     this.props.history.push(
@@ -31,22 +40,28 @@ class Home extends Component {
     return router.component
   }
   defaultOpen = () => {
-    return this.findDefaultOpen(routers)
+    return (this.defaultSelectMenu =
+      this.defaultSelectMenu || this.findDefaultOpen(routers))
   }
 
   findDefaultOpen = (routers, now_router) => {
     for (let i = 0; i < routers.length; i++) {
       const router = routers[i]
+      this.defaultOpenMenu.push(router)
       if (router.defaultSelect) return now_router || router
+
       if (router.children && router.children.length > 0) {
         const temp_router = this.findDefaultOpen(router.children, router)
         if (temp_router) return temp_router
       }
+      this.defaultOpenMenu.pop(router)
     }
     return
   }
 
-  defaultOpenKeys = () => [this.defaultOpen().path]
+  defaultOpenKeys = () => {
+    return this.defaultOpenMenu.map(router => router.path)
+  }
 
   defaultSelectedKeys = () => [
     this.defaultOpen().children.find(item => item.defaultSelect).path
@@ -66,16 +81,7 @@ class Home extends Component {
   render() {
     return (
       <Layout style={{ height: '100%' }}>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={broken => {
-            console.log(broken)
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type)
-          }}
-        >
+        <Sider breakpoint="lg" collapsedWidth="0">
           <div className="logo" />
           <Menu
             onClick={this.handleClick}
@@ -88,12 +94,11 @@ class Home extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <span style={{ marginLeft: '40px' }}>标题</span>
+          </Header>
           <Content style={{ margin: '24px 16px 0' }}>
-            <Route
-              path={`${this.props.match.path}`}
-              render={this.contentRender}
-            />
+            <Route path={this.props.match.path} render={this.contentRender} />
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED

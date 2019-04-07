@@ -21,6 +21,7 @@ export default class Todo extends Component {
   render() {
     return (
       <div>
+        <span>{this.props.span}</span>
         <Input add={this.add.bind(this)} />
         <List data={this.state.list} remove={this.remove.bind(this)} />
       </div>

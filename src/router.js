@@ -14,12 +14,13 @@ const router = [
       {
         path: 'todo1',
         title: 'todo1',
-        component: <Todo />
+        defaultSelect: true,
+        component: <Todo span={1} />
       },
       {
         path: 'todo2',
         title: 'todo2',
-        component: <Todo />
+        component: <Todo span={2} />
       }
     ]
   },
@@ -35,7 +36,7 @@ const router = [
       {
         path: 'todo3',
         title: 'todo3',
-        component: <Todo />
+        component: <Todo span={3} />
       },
       {
         path: 'todo4',
@@ -48,27 +49,41 @@ const router = [
               {
                 path: 'todo7',
                 title: 'todo7',
-                component: <Todo />
+                component: <Todo span={4} />
               },
               {
                 path: 'todo8',
                 title: 'todo8',
-                defaultSelect: true,
-                component: <Todo />
+                component: <Todo span={5} />
               }
             ]
           },
           {
             path: 'todo6',
             title: 'todo6',
-            component: <Todo />
+            component: <Todo span={6} />
           }
         ]
       }
     ]
   }
 ]
-export default router
+function addPath(routers, router) {
+  return routers.map(item => {
+    if (router) {
+      item.path = `${router.path}/${item.path}`
+      item.paths = [item.path]
+      item.paths = [...router.paths, ...item.paths]
+    } else {
+      item.paths = [item.path]
+    }
+    if (item.children) {
+      item.children = addPath(item.children, item)
+    }
+    return item
+  })
+}
+export default addPath(router)
 //path
 //component
 //children

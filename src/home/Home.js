@@ -11,34 +11,18 @@ const MenuItem = Menu.Item
 class Home extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      selectedKeys: '',
+      openKeys: []
+    }
   }
-  routerArr = []
   defaultOpenMenu = []
   defaultSelectMenu = undefined
-  componentDidMount = () => {
-    this.defaultOpen()
-    this.routerArr = this.defaultOpenKeys()
-    this.props.history.push(
-      `${this.props.match.path}/${this.routerArr.join('/')}`
-    )
-  }
+
   handleClick = ({ item, key, keyPath }) => {
-    this.routerArr = keyPath.reverse()
-    this.props.history.push(
-      `${this.props.match.path}/${this.routerArr.join('/')}`
-    )
+    this.props.history.push(`${this.props.match.path}/${key}`)
   }
-  contentRender = ({ match }) => {
-    let router = routers
-    while (this.routerArr.length > 0) {
-      const path = this.routerArr.shift()
-      router = router.find(item => {
-        return item.path === path
-      })
-      if (this.routerArr.length > 0) router = router.children
-    }
-    return router.component
-  }
+
   defaultOpen = () => {
     return (this.defaultSelectMenu =
       this.defaultSelectMenu || this.findDefaultOpen(routers))
@@ -69,7 +53,7 @@ class Home extends Component {
 
   renderMenu = routers =>
     routers.map(item =>
-      item.children && item.children.length > 0 ? (
+      (item.children && item.children.length) > 0 ? (
         <SubMenu key={item.path} title={item.title}>
           {this.renderMenu(item.children)}
         </SubMenu>
@@ -77,6 +61,23 @@ class Home extends Component {
         <MenuItem key={item.path}>{item.title}</MenuItem>
       )
     )
+  createRoute = routers =>
+    routers.map(item =>
+      (item.children && item.children.length) > 0 ? (
+        this.createRoute(item.children)
+      ) : (
+        <Route
+          path={`${this.props.match.path}/${item.path}`}
+          render={({ match }) => this.renderRoute(match, item)}
+        />
+      )
+    )
+  renderRoute = (match, item) => {
+    console.log(match)
+    
+    // this.setState({selectedKeys:item.path,openKeys:item.paths.reverse()})
+    return item.component
+  }
 
   render() {
     return (
@@ -98,7 +99,7 @@ class Home extends Component {
             <span style={{ marginLeft: '40px' }}>标题</span>
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
-            <Route path={this.props.match.path} render={this.contentRender} />
+            <Switch>{this.createRoute(routers)}</Switch>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED

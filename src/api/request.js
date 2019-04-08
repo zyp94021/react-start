@@ -2,9 +2,11 @@ export const request = (api, options = {}) =>
   fetch(api, { ...options }).then(rsp => rsp.json())
 export const get = (api, data) =>
   request(
-    `${api}?${Object.entries(data)
-      .map(e => e.join('='))
-      .join('&')}`,
+    data
+      ? `${api}?${Object.entries(data)
+          .map(e => e.join('='))
+          .join('&')}`
+      : api,
   )
 export const post = (api, data) =>
   request(api, {

@@ -6,7 +6,6 @@ import AppData from './AppData'
 import eventBus from './EventBus'
 import { hot } from 'react-hot-loader'
 import './App.scss'
-import { UserCTHoldings } from './UserCTHoldings/UserCTHoldings';
 
 class App extends Component {
   constructor(props) {
@@ -52,7 +51,6 @@ class App extends Component {
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/login" component={Login} />
-          <Route path="/userctholdings" component={UserCTHoldings} />
 
         </Switch>
       </Router>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Todo from './todo/Todo'
 import { Icon } from 'antd'
-import { UserCTHoldings } from './UserCTHoldings/UserCTHoldings';
+import  UserCTHoldings  from './UserCTHoldings/UserCTHoldings';
 const router = [
   {
     path: 'menu1',

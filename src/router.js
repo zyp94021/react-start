@@ -1,7 +1,7 @@
 import React from 'react'
 import Todo from './todo/Todo'
 import { Icon } from 'antd'
-import { UserCTHoldings } from './UserCTHoldings/UserCTHoldings'
+import  UserCTHoldings  from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
 const router = [
   {

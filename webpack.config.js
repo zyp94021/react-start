@@ -14,14 +14,14 @@ module.exports = {
         options: { presets: ['@babel/env'] },
       },
       {
-        test: /\.(css|sass|scss)$/,
+        test: /\.(css|less)$/,
         use: [
           process.env.NODE_ENV !== 'production'
             ? 'style-loader'
             : MiniCssExtractPlugin.loader, // 将 JS 字符串生成为 style 节点
           'css-loader', // 将 CSS 转化成 CommonJS 模块
           'postcss-loader',
-          'sass-loader', // 将 Sass 编译成 CSS，默认使用 Node Sass,
+          'less-loader', // 将 less 编译成 CSS,
         ],
       },
     ],

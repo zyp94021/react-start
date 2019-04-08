@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Container.scss'
+import './Container.less'
 
 export default class Dialog extends Component {
   constructor(props) {

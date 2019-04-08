@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import eventBus from "@src/EventBus"
 import { withRouter } from "react-router"
-import "./login.scss"
+import "./login.less"
 import { Button, Form, Input, Checkbox, Icon } from "antd"
 import { login, register } from "@api/login"
 class Login extends Component {

@@ -1,9 +1,9 @@
-@import './index.scss';
+@import './index.less';
 html {
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
   & {
-    @media screen and (max-width: $lg) {
+    @media screen and (max-width: @lg) {
       font-size: 12px;
     }
   }
@@ -31,6 +31,6 @@ p,
 }
 .content {
   width: 100%;
-  max-width: $lg;
+  max-width: @lg;
   margin: 0 auto;
 }

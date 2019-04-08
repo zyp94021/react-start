@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import eventBus from "../EventBus"
+import eventBus from "@src/EventBus"
 import { withRouter } from "react-router"
 import "./login.scss"
 import { Button, Form, Input, Checkbox, Icon } from "antd"
-import { login, register } from "../api/login"
+import { login, register } from "@api/login"
 class Login extends Component {
   constructor(props) {
     super(props)

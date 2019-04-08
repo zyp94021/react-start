@@ -25,7 +25,16 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: ['*', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      '@src': path.resolve('src'),
+      '@api': path.resolve('src/api'),
+      '@component': path.resolve('src/component'),
+      '@pages': path.resolve('src/pages'),
+      '@utils': path.resolve('src/utils')
+    }
+  },
   output: {
     path: path.resolve(__dirname, 'dist/'),
     publicPath: '/dist/',

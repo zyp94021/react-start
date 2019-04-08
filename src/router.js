@@ -1,7 +1,8 @@
 import React from 'react'
 import Todo from './todo/Todo'
 import { Icon } from 'antd'
-import  UserCTHoldings  from './UserCTHoldings/UserCTHoldings';
+import  UserCTHoldings  from '@pages/UserCTHoldings/UserCTHoldings'
+import GeneralData from '@pages/GeneralData/index'
 const router = [
   {
     path: 'menu1',
@@ -16,14 +17,14 @@ const router = [
         path: 'userctholdings',
         title: '用户CT持仓情况',
         defaultSelect: true,
-        component: <UserCTHoldings span={1} />
+        component: <UserCTHoldings span={1} />,
       },
       {
-        path: 'todo2',
-        title: 'todo2',
-        component: <Todo span={2} />
-      }
-    ]
+        path: 'GeneralData',
+        title: '常规数据',
+        component: <GeneralData />,
+      },
+    ],
   },
   {
     path: 'menu2',
@@ -37,7 +38,7 @@ const router = [
       {
         path: 'todo3',
         title: 'todo3',
-        component: <Todo span={3} />
+        component: <Todo span={3} />,
       },
       {
         path: 'todo4',
@@ -50,24 +51,24 @@ const router = [
               {
                 path: 'todo7',
                 title: 'todo7',
-                component: <Todo span={4} />
+                component: <Todo span={4} />,
               },
               {
                 path: 'todo8',
                 title: 'todo8',
-                component: <Todo span={5} />
-              }
-            ]
+                component: <Todo span={5} />,
+              },
+            ],
           },
           {
             path: 'todo6',
             title: 'todo6',
-            component: <Todo span={6} />
-          }
-        ]
-      }
-    ]
-  }
+            component: <Todo span={6} />,
+          },
+        ],
+      },
+    ],
+  },
 ]
 const addPath = (routers, router) => {
   return routers.map(item => {
@@ -108,7 +109,7 @@ const findDefaultOpen = (routers, now_router) => {
 const defaultOpenKeys = () => defaultOpenMenu.map(router => router.path)
 
 const defaultSelectedKeys = () => [
-  defaultOpen().children.find(item => item.defaultSelect).path
+  defaultOpen().children.find(item => item.defaultSelect).path,
 ]
 
 export const routers = addPath(router)

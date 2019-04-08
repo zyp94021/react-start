@@ -3,7 +3,7 @@ import './home.scss'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import { withRouter } from 'react-router'
-import { routers, openKeys, selectedKeys } from '../router'
+import { routers, openKeys, selectedKeys } from '@src/router'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
 const MenuItem = Menu.Item
@@ -16,7 +16,7 @@ class Home extends Component {
   selectedKeys = undefined
   handleClick = ({ item, key, keyPath }) => {
     this.props.history.push(`${this.props.match.path}/${key}`)
-    console.log('--',key,keyPath)
+    console.log('--', key, keyPath)
     // this.props.history.push(`${this.props.match.path}/userctholdings`)
   }
 
@@ -28,7 +28,7 @@ class Home extends Component {
         </SubMenu>
       ) : (
         <MenuItem key={item.path}>{item.title}</MenuItem>
-      )
+      ),
     )
   createRoute = routers =>
     routers.map(item =>
@@ -39,7 +39,7 @@ class Home extends Component {
           path={`${this.props.match.path}/${item.path}`}
           render={() => item.component}
         />
-      )
+      ),
     )
   componentWillMount() {
     const location = this.props.location.pathname

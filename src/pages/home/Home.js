@@ -14,10 +14,8 @@ class Home extends Component {
   }
   openKeys = []
   selectedKeys = undefined
-  handleClick = ({ item, key, keyPath }) => {
+  handleClick = ({ key }) => {
     this.props.history.push(`${this.props.match.path}/${key}`)
-    console.log('--', key, keyPath)
-    // this.props.history.push(`${this.props.match.path}/userctholdings`)
   }
 
   renderMenu = routers =>
@@ -38,6 +36,7 @@ class Home extends Component {
         <Route
           path={`${this.props.match.path}/${item.path}`}
           render={() => item.component}
+          key={item.path}
         />
       ),
     )

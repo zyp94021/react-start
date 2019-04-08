@@ -5,6 +5,12 @@ import { UserCTHoldings } from './UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
 const router = [
   {
+    path: 'GeneralData',
+    title: '常规数据',
+    defaultSelect: true,
+    component: <GeneralData />,
+  },
+  {
     path: 'menu1',
     title: (
       <span>
@@ -16,13 +22,7 @@ const router = [
       {
         path: 'userctholdings',
         title: '用户CT持仓情况',
-        defaultSelect: true,
         component: <UserCTHoldings span={1} />,
-      },
-      {
-        path: 'GeneralData',
-        title: '常规数据',
-        component: <GeneralData />,
       },
     ],
   },
@@ -109,7 +109,9 @@ const findDefaultOpen = (routers, now_router) => {
 const defaultOpenKeys = () => defaultOpenMenu.map(router => router.path)
 
 const defaultSelectedKeys = () => [
-  defaultOpen().children.find(item => item.defaultSelect).path,
+  defaultOpen().children
+    ? defaultOpen().children.find(item => item.defaultSelect).path
+    : defaultOpen().path,
 ]
 
 export const routers = addPath(router)

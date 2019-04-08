@@ -1,5 +1,6 @@
+import { baseUrl } from '../../config'
 export const request = (api, options = {}) =>
-  fetch(api, { ...options }).then(rsp => rsp.json())
+  fetch(baseUrl + api, { ...options }).then(rsp => rsp.json())
 export const get = (api, data) =>
   request(
     data

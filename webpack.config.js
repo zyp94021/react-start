@@ -48,7 +48,9 @@ module.exports = {
     publicPath: 'http://localhost:3333/dist/',
     hotOnly: true,
     before(app) {
-      apiMocker(app, path.resolve('./mocker/index.js'))
+      if (process.env.MOCK_ENV) {
+        apiMocker(app, path.resolve('./mocker/index.js'))
+      }
     },
   },
   plugins: [

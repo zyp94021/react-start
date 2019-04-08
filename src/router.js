@@ -1,6 +1,7 @@
 import React from 'react'
 import Todo from './todo/Todo'
 import { Icon } from 'antd'
+import { UserCTHoldings } from './UserCTHoldings/UserCTHoldings';
 const router = [
   {
     path: 'menu1',
@@ -12,10 +13,10 @@ const router = [
     ),
     children: [
       {
-        path: 'todo1',
-        title: 'todo1',
+        path: 'userctholdings',
+        title: '用户CT持仓情况',
         defaultSelect: true,
-        component: <Todo span={1} />
+        component: <UserCTHoldings span={1} />
       },
       {
         path: 'todo2',

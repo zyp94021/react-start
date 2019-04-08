@@ -16,6 +16,8 @@ class Home extends Component {
   selectedKeys = undefined
   handleClick = ({ item, key, keyPath }) => {
     this.props.history.push(`${this.props.match.path}/${key}`)
+    console.log('--',key,keyPath)
+    // this.props.history.push(`${this.props.match.path}/userctholdings`)
   }
 
   renderMenu = routers =>

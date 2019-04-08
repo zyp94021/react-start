@@ -3,7 +3,7 @@ import './home.scss'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import { withRouter } from 'react-router'
-import routers from '../router'
+import { routers, openKeys, selectedKeys } from '../router'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
 const MenuItem = Menu.Item
@@ -11,45 +11,12 @@ const MenuItem = Menu.Item
 class Home extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selectedKeys: '',
-      openKeys: []
-    }
   }
-  defaultOpenMenu = []
-  defaultSelectMenu = undefined
-
+  openKeys = []
+  selectedKeys = undefined
   handleClick = ({ item, key, keyPath }) => {
     this.props.history.push(`${this.props.match.path}/${key}`)
   }
-
-  defaultOpen = () => {
-    return (this.defaultSelectMenu =
-      this.defaultSelectMenu || this.findDefaultOpen(routers))
-  }
-
-  findDefaultOpen = (routers, now_router) => {
-    for (let i = 0; i < routers.length; i++) {
-      const router = routers[i]
-      this.defaultOpenMenu.push(router)
-      if (router.defaultSelect) return now_router || router
-
-      if (router.children && router.children.length > 0) {
-        const temp_router = this.findDefaultOpen(router.children, router)
-        if (temp_router) return temp_router
-      }
-      this.defaultOpenMenu.pop(router)
-    }
-    return
-  }
-
-  defaultOpenKeys = () => {
-    return this.defaultOpenMenu.map(router => router.path)
-  }
-
-  defaultSelectedKeys = () => [
-    this.defaultOpen().children.find(item => item.defaultSelect).path
-  ]
 
   renderMenu = routers =>
     routers.map(item =>
@@ -68,17 +35,35 @@ class Home extends Component {
       ) : (
         <Route
           path={`${this.props.match.path}/${item.path}`}
-          render={({ match }) => this.renderRoute(match, item)}
+          render={() => item.component}
         />
       )
     )
-  renderRoute = (match, item) => {
-    console.log(match)
-    
-    // this.setState({selectedKeys:item.path,openKeys:item.paths.reverse()})
-    return item.component
+  componentWillMount() {
+    const location = this.props.location.pathname
+    const match = this.props.match.path
+    if (location === match) {
+      this.props.history.push(`${match}/${selectedKeys}`)
+      this.openKeys = openKeys
+      this.selectedKeys = selectedKeys
+    } else {
+      const path = location.replace(`${match}/`, '')
+      this.selectedKeys = [path]
+      const paths = path.split('/')
+      this.joinPath(paths)
+      this.openKeys = this.paths
+    }
   }
-
+  paths = []
+  joinPath(paths) {
+    paths.pop()
+    if (paths.length > 1) {
+      this.paths.unshift(paths.reduce((a, b) => `${a}/${b}`))
+      this.joinPath(paths)
+    } else {
+      this.paths.unshift(paths.pop())
+    }
+  }
   render() {
     return (
       <Layout style={{ height: '100%' }}>
@@ -86,8 +71,8 @@ class Home extends Component {
           <div className="logo" />
           <Menu
             onClick={this.handleClick}
-            defaultSelectedKeys={this.defaultSelectedKeys()}
-            defaultOpenKeys={this.defaultOpenKeys()}
+            defaultSelectedKeys={this.selectedKeys}
+            defaultOpenKeys={this.openKeys}
             mode="inline"
             theme="dark"
           >

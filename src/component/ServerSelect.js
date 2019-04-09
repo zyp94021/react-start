@@ -25,14 +25,20 @@ export default class ServerSelect extends Component {
       onChange(Object.assign({}, this.state, changedValue))
     }
   }
+  componentWillMount() {
+    AppData.server = server[0].id
+  }
+  componentWillUnmount() {
+    AppData.server = this.state.server
+  }
 
   render() {
     return (
       <Select
         mode="multiple"
         onChange={this.handleChange}
-        value={this.state.server}
         style={this.props.style}
+        value={this.state.server}
       >
         {server.map(item => (
           <Option key={item.id} value={item.id}>

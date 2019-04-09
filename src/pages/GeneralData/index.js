@@ -147,14 +147,14 @@ class GeneralData extends Component {
       current: this.state.pagination.defaultCurrent,
       pageSize: this.state.pagination.defaultPageSize,
     }
-    const { result: tableData } = await getGeneralData({
+    const [{ result: tableData }] = await getGeneralData({
       ...formQuery,
       ...query,
     })
     this.setState({ tableData, loading: false })
   }
   getTodayData = async () => {
-    const { result: data } = await getGeneralData({
+    const [{ result: data }] = await getGeneralData({
       startTime: Date.now(),
       serverId: 0,
     })
@@ -191,7 +191,7 @@ class GeneralData extends Component {
           <Item label="选择服务器">
             {getFieldDecorator('server', {
               initialValue: [server[0].id],
-            })(<ServerSelect style={{ width: 160 }} />)}
+            })(<ServerSelect style={{ width: 350 }} />)}
           </Item>
           <Item label="时间">
             {getFieldDecorator('time', {

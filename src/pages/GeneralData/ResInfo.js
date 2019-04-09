@@ -73,7 +73,7 @@ class ResInfo extends Component {
       startTime: this.props.form.getFieldValue('time')[0].valueOf(),
       endTime: this.props.form.getFieldValue('time')[1].valueOf(),
     }
-    const { result } = await getResInfoData(query)
+    const [{ result }] = await getResInfoData(query)
     this.renderChart(result)
   }
   getTableData = async () => {}
@@ -120,7 +120,7 @@ class ResInfo extends Component {
           <Item label="选择服务器">
             {getFieldDecorator('server', {
               initialValue: [server[0].id],
-            })(<ServerSelect style={{ width: 350 }}/>)}
+            })(<ServerSelect style={{ width: 350 }} />)}
           </Item>
           <Item wrapperCol={{ span: 21, offset: 3 }}>
             <Button type="primary" htmlType="submit">

@@ -1,9 +1,14 @@
 import { server } from '../config'
 import AppData from '../AppData'
 export const request = (api, options = {}) =>
-  fetch(server.find(item => item.id === AppData.server[0]).serverUrl + api, {
-    ...options,
-  }).then(rsp => rsp.json())
+  Promise.all(
+    AppData.server.map(item =>
+      fetch(server.find(item2 => item2.id === item).serverUrl + api, {
+        ...options,
+      }).then(rsp => rsp.json()),
+    ),
+  )
+
 export const get = (api, data) =>
   request(
     data

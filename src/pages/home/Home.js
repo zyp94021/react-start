@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './home.scss'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import { withRouter } from 'react-router'

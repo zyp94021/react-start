@@ -5,7 +5,7 @@ import Home from '@pages/home/Home'
 import AppData from './AppData'
 import eventBus from './EventBus'
 import { hot } from 'react-hot-loader'
-import './App.scss'
+import './App.less'
 
 class App extends Component {
   constructor(props) {

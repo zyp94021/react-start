@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import eventBus from '../EventBus'
 import AppData from '../AppData'
 import { withRouter } from 'react-router'
-import './header.scss'
+import './header.less'
 class Header extends Component {
   constructor(props) {
     super(props)

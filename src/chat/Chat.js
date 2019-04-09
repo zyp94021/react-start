@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Input from './Input'
 import Container from './Container'
-import './Chat.scss'
+import './Chat.less'
 import io from 'socket.io-client'
 export default class Chat extends Component {
   constructor(props) {

@@ -1,10 +1,10 @@
 const Mock = require('mockjs')
 const Api = {
   GetGeneralData: '/api/getGeneralData',
-  GetServerData: '/api/getServerData',
+  GetResInfoData: '/api/GetResInfoData',
 }
 const GeneralData = require('./generalData')
-const ServerData = require('./serverData')
+const ResInfoData = require('./ResInfoData')
 const proxy = {
   ['GET ' + Api.GetGeneralData]: (req, res) => {
     const todayTime = new Date().setHours(0, 0, 0, 0)
@@ -19,8 +19,8 @@ const proxy = {
       return res.json(result)
     }
   },
-  ['GET ' + Api.GetServerData]: (req, res) => {
-    return res.json(Mock.mock(ServerData))
+  ['GET ' + Api.GetResInfoData]: (req, res) => {
+    return res.json(Mock.mock(ResInfoData))
   },
 }
 module.exports = proxy

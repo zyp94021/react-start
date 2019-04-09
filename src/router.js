@@ -1,20 +1,30 @@
 import React from 'react'
-import Todo from './todo/Todo'
 import { Icon } from 'antd'
-import  UserCTHoldings  from '@pages/UserCTHoldings/UserCTHoldings'
+import UserCTHoldings from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
-import  UserInfo  from '@pages/UserInfo/UserInfo'
+import UserInfo from '@pages/UserInfo/UserInfo'
+import ResInfo from '@pages/GeneralData/ResInfo'
 const router = [
   {
-    path: 'GeneralData',
+    path: 'general',
     title: '常规数据',
-    defaultSelect: true,
-    component: <GeneralData />,
+    children: [
+      {
+        path: 'day',
+        title: '日常数据',
+        defaultSelect: true,
+        component: <GeneralData />,
+      },
+      {
+        path: 'res',
+        title: '资源产耗',
+        component: <ResInfo />,
+      },
+    ],
   },
   {
     path: 'userctholdings',
     title: '用户CT持仓情况',
-    defaultSelect: true,
     component: <UserCTHoldings />,
   },
   {
@@ -30,7 +40,7 @@ const router = [
         path: 'UserInfo',
         title: '用户信息',
         component: <UserInfo />,
-      }
+      },
     ],
   },
 ]

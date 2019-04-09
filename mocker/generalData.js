@@ -17,7 +17,7 @@ module.exports = {
   moreData: {
     'result|100': [
       {
-        'data1|1': Random.date('yyyy-MM-dd'),
+        data1: '@date',
         'data2|10-100': 0,
         'data3|10-100': 0,
         'data4|10-100': 0,

@@ -1,6 +1,9 @@
-import { baseUrl } from '../../config'
+import { server } from '../config'
+import AppData from '../AppData'
 export const request = (api, options = {}) =>
-  fetch(baseUrl + api, { ...options }).then(rsp => rsp.json())
+  fetch(server.find(item => item.id === AppData.server[0]).serverUrl + api, {
+    ...options,
+  }).then(rsp => rsp.json())
 export const get = (api, data) =>
   request(
     data

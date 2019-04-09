@@ -34,6 +34,7 @@ module.exports = {
       '@component': path.resolve('src/component'),
       '@pages': path.resolve('src/pages'),
       '@utils': path.resolve('src/utils'),
+      '@component': path.resolve('src/component'),
     },
   },
   output: {

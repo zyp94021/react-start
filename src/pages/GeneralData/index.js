@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Card, Col, Row, Form, DatePicker, Button, Table, Select } from 'antd'
 import moment from 'moment'
-import { getGeneralData, getServerData } from '@api/generalData'
+import { getGeneralData } from '@api/generalData'
+import { server } from '@src/config'
+import AppData from '@src/AppData'
+import ServerSelect from '@component/ServerSelect'
 const { Item } = Form
-const { Option } = Select
 const { RangePicker } = DatePicker
 const todayData = {
   data1: {
@@ -115,12 +117,10 @@ const tableColumnsData = [
   },
 ]
 const endTime = new Date().setHours(0, 0, 0, 0)
-const startTime = endTime - 24 * 60 * 60 * 1000
-const AllServerData = [{ id: 0, name: '所有服务器' }]
+const startTime = endTime - 24 * 60 * 60 * 1000 * 7
 
 class GeneralData extends Component {
   state = {
-    serverData: AllServerData,
     todayData,
     tableData: [],
     loading: false,
@@ -135,7 +135,6 @@ class GeneralData extends Component {
   }
   async componentWillMount() {
     await this.getTodayData()
-    await this.getServerData()
   }
   async componentDidMount() {
     await this.getTableData()
@@ -145,7 +144,6 @@ class GeneralData extends Component {
     const formQuery = {
       startTime: this.props.form.getFieldValue('time')[0].valueOf(),
       endTime: this.props.form.getFieldValue('time')[1].valueOf(),
-      serverId: this.props.form.getFieldValue('serverData'),
       current: this.state.pagination.defaultCurrent,
       pageSize: this.state.pagination.defaultPageSize,
     }
@@ -163,11 +161,7 @@ class GeneralData extends Component {
     const todayData = this.state.todayData
     Object.entries(data).map(data => (todayData[data[0]].data = data[1]))
   }
-  getServerData = async () => {
-    let { result: serverData } = await getServerData()
-    serverData = [...AllServerData, ...serverData]
-    this.setState({ serverData })
-  }
+
   handleSubmit = async e => {
     e.preventDefault()
     await this.getTableData()
@@ -195,17 +189,9 @@ class GeneralData extends Component {
         </Row>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Item label="选择服务器">
-            {getFieldDecorator('serverData', {
-              initialValue: AllServerData[0].id,
-            })(
-              <Select style={{ width: 160 }}>
-                {this.state.serverData.map(item => (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>,
-            )}
+            {getFieldDecorator('server', {
+              initialValue: [server[0].id],
+            })(<ServerSelect style={{ width: 160 }} />)}
           </Item>
           <Item label="时间">
             {getFieldDecorator('time', {

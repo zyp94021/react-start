@@ -86,9 +86,9 @@ class Home extends Component {
           <Content style={{ margin: '24px 16px 0' }}>
             <Switch>{this.createRoute(routers)}</Switch>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
+          {/* <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
-          </Footer>
+          </Footer> */}
         </Layout>
       </Layout>
     )

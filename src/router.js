@@ -3,6 +3,7 @@ import Todo from './todo/Todo'
 import { Icon } from 'antd'
 import  UserCTHoldings  from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
+import  UserInfo  from '@pages/UserInfo/UserInfo'
 const router = [
   {
     path: 'GeneralData',
@@ -11,62 +12,25 @@ const router = [
     component: <GeneralData />,
   },
   {
-    path: 'menu1',
-    title: (
-      <span>
-        <Icon type="mail" />
-        <span>一级导航 1</span>
-      </span>
-    ),
-    children: [
-      {
-        path: 'userctholdings',
-        title: '用户CT持仓情况',
-        component: <UserCTHoldings span={1} />,
-      },
-    ],
+    path: 'userctholdings',
+    title: '用户CT持仓情况',
+    defaultSelect: true,
+    component: <UserCTHoldings />,
   },
   {
     path: 'menu2',
     title: (
       <span>
-        <Icon type="mail" />
-        <span>一级导航 2</span>
+        <Icon type="user" />
+        <span>用户信息查询</span>
       </span>
     ),
     children: [
       {
-        path: 'todo3',
-        title: 'todo3',
-        component: <Todo span={3} />,
-      },
-      {
-        path: 'todo4',
-        title: 'todo4',
-        children: [
-          {
-            path: 'todo5',
-            title: 'todo5',
-            children: [
-              {
-                path: 'todo7',
-                title: 'todo7',
-                component: <Todo span={4} />,
-              },
-              {
-                path: 'todo8',
-                title: 'todo8',
-                component: <Todo span={5} />,
-              },
-            ],
-          },
-          {
-            path: 'todo6',
-            title: 'todo6',
-            component: <Todo span={6} />,
-          },
-        ],
-      },
+        path: 'UserInfo',
+        title: '用户信息',
+        component: <UserInfo />,
+      }
     ],
   },
 ]

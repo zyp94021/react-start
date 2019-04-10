@@ -4,6 +4,7 @@ import { Icon } from 'antd'
 import  UserCTHoldings  from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
 import  UserInfo  from '@pages/UserInfo/UserInfo'
+import SendMail from '@pages/Mail/SendMail';
 const router = [
   {
     path: 'GeneralData',
@@ -30,6 +31,11 @@ const router = [
         path: 'UserInfo',
         title: '用户信息',
         component: <UserInfo />,
+      },
+      {
+        path: 'SendMail',
+        title: '发送邮件',
+        component: <SendMail />,
       }
     ],
   },

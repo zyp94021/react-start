@@ -133,11 +133,9 @@ class GeneralData extends Component {
   onPageChange = async (current, pageSize) => {
     await this.getTableData({ current, pageSize })
   }
-  async componentWillMount() {
-    await this.getTodayData()
-  }
+
   async componentDidMount() {
-    await this.getTableData()
+    await this.getTodayData()
   }
   getTableData = async query => {
     this.setState({ loading: true })

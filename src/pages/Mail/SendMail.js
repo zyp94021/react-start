@@ -88,11 +88,8 @@ class SendMail extends Component {
                 wrapperCol={{ span: 20 }}
               >
                 {getFieldDecorator('server', {
-                  initialValue:server[0].id
-                })(
-                  <ServerSelect style={{ width: 160 }}>
-                  </ServerSelect>,
-                )}
+                  initialValue: server[0].id,
+                })(<ServerSelect style={{ width: 160 }} />)}
               </Form.Item>
             </Col>
           </Row>
@@ -176,15 +173,17 @@ class SendMail extends Component {
                     style={{ marginLeft: 10 }}
                     className="dynamic-delete-button"
                     type="minus-circle-o"
-                    theme="twoTone" 
+                    theme="twoTone"
                     onClick={() => this.removeAttachment(item)}
                     twoToneColor={'#CC0000'}
                   />
                 </List.Item>
               )}
             />
+            <div>注:如已选资源，附件列表中是将要给玩家发送的资源列表</div>
           </Form.Item>
-          <Form.Item  wrapperCol={{ span: 12, offset: 6 }}>
+
+          <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
             <Button type="primary" htmlType="submit">
               发送
             </Button>

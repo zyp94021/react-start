@@ -3,6 +3,9 @@ import { Form, Input, Select, Button, Pagination } from 'antd'
 import { withRouter } from 'react-router'
 import { Table, Divider, Tag } from 'antd'
 import { random } from 'node-forge'
+import ServerSelect from '@component/ServerSelect'
+import { server } from '@src/config'
+import Player from 'eosplayer'
 const { Option } = Select
 class UserCTHoldings extends Component {
   constructor(props) {
@@ -25,6 +28,7 @@ class UserCTHoldings extends Component {
     v.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+    console.log(window['eosplayer'])
         console.log('Received values of form: ', values)
       }
     })
@@ -58,18 +62,15 @@ class UserCTHoldings extends Component {
         key: 'count',
       },
     ]
+    const { getFieldDecorator } = this.props.form
     return (
       <div>
         <span className="chooseServer-container">
           <Form layout="inline" onSubmit={this.handleSubmit}>
             <Form.Item label="请选择服务器">
-              <Select value={state.value} onChange={this.handleServerChange}>
-                <Option value="all">一/二/三/四服</Option>
-                <Option value="ctserver5111">一服</Option>
-                <Option value="ctserver5112">二服</Option>
-                <Option value="ctserver5113">三服</Option>
-                <Option value="ctserver5114">四服</Option>
-              </Select>
+            {getFieldDecorator('server', {
+              initialValue: [server[0].id],
+            })(<ServerSelect style={{ width: 160 }} />)}
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
@@ -82,9 +83,10 @@ class UserCTHoldings extends Component {
           <Table
             pagination={{ defaultPageSize: 10 }}
             bordered={true}
-            dataSource={state.showData}
             columns={columns}
+            dataSource={state.showData}
             rowKey="address"
+            style={{width:600}}
           />
         </span>
       </div>

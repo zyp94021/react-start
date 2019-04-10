@@ -7,6 +7,7 @@ import UserInfo from '@pages/UserInfo/UserInfo'
 import ResInfo from '@pages/GeneralData/ResInfo'
 import DevInfo from '@pages/DevelopData/index'
 import BatInfo from '@pages/CombatData/index'
+import TransInfo from '@pages/TransactionData'
 import MailHistroy from '@pages/Mail/MailHistroy'
 const router = [
   {
@@ -35,6 +36,11 @@ const router = [
     path: 'combat',
     title: '战斗数据',
     component: <BatInfo />,
+  },
+  {
+    path: 'transaction',
+    title: '交易数据',
+    component: <TransInfo />,
   },
   {
     path: 'userctholdings',

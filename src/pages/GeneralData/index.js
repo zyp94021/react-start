@@ -5,15 +5,15 @@ import moment from 'moment'
 import { getGeneralData } from '@api/generalData'
 import { server } from '@src/config'
 const todayData = {
-  data1: {
+  reg_count: {
     title: '今日新增激活',
     data: 0,
   },
-  data2: {
+  dau: {
     title: '今日DAU',
     data: 0,
   },
-  data3: {
+  payCount: {
     title: '今日付费人数',
     data: 0,
   },
@@ -52,7 +52,7 @@ class GeneralData extends Component {
     loading: false,
     pagination: {
       defaultCurrent: 1,
-      defaultPageSize: 15,
+      defaultPageSize: 10,
       total: 0,
     },
   }
@@ -71,21 +71,24 @@ class GeneralData extends Component {
       current: this.state.pagination.defaultCurrent,
       pageSize: this.state.pagination.defaultPageSize,
     }
-    const [{ result: tableData }] = await getGeneralData({
+    const [tableData] = await getGeneralData({
       ...formQuery,
       ...query,
     })
     this.setState({ tableData, loading: false })
   }
   getTodayData = async () => {
-    const now = new Date()
-    
-    const [{ result: data }] = await getGeneralData({
-      start: now.setHours(0, 0, 0, 0),
+    const now = moment(new Date())
+      .subtract(1, 'days')
+      .toDate()
+    const [[data]] = await getGeneralData({
       end: now.getTime(),
+      start: now.setHours(0, 0, 0, 0),
     })
     const todayData = this.state.todayData
-    Object.entries(data).map(data => (todayData[data[0]].data = data[1]))
+    Object.entries(data).map(data =>
+      todayData[data[0]] ? (todayData[data[0]].data = data[1]) : null,
+    )
   }
 
   handleSubmit = async e => {
@@ -104,24 +107,27 @@ class GeneralData extends Component {
     const tableColumnsData = [
       {
         title: '日期',
-        dataIndex: 'data1',
+        dataIndex: 'time',
         width: 110,
+        render: text => {
+          return moment(text).format('YYYY-MM-D')
+        },
       },
       {
         title: '新增注册',
-        dataIndex: 'data2',
+        dataIndex: 'regist_count',
       },
       {
         title: '新增激活',
-        dataIndex: 'data3',
+        dataIndex: 'reg_count',
       },
       {
         title: '日活跃用户',
-        dataIndex: 'data4',
+        dataIndex: 'dau',
       },
       {
         title: '付费人数',
-        dataIndex: 'data5',
+        dataIndex: 'payCount',
       },
       {
         title: 'eos流水',
@@ -165,11 +171,26 @@ class GeneralData extends Component {
       },
       {
         title: '交易所',
-        dataIndex: 'data16',
+        dataIndex: 'sell',
+        render: text => {
+          return text || 0
+        },
       },
       {
         title: '其它',
         dataIndex: 'data17',
+        render: (text, record) => {
+          if (record.costfunc) {
+            const costfunc = record.costfunc
+            const buyCommodity = costfunc.buyCommodity || 0
+            const buyHammer = costfunc.buyHammer || 0
+            const changecastle = costfunc.changecastle || 0
+            const finishAct = costfunc.finishAct || 0
+            return buyCommodity + buyHammer + changecastle + finishAct
+          } else {
+            return 0
+          }
+        },
       },
     ]
     return (

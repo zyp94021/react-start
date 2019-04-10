@@ -5,7 +5,6 @@ import { Table, Divider, Tag } from 'antd'
 import { random } from 'node-forge'
 import ServerSelect from '@component/ServerSelect'
 import { server } from '@src/config'
-import Player from 'eosplayer'
 const { Option } = Select
 class UserCTHoldings extends Component {
   constructor(props) {

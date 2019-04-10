@@ -8,8 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   ]
 } else {
   server = [
-    { id: 1, name: '测试服', serverUrl: 'http://localhost:3333' },
-    { id: 2, name: '测试服2', serverUrl: 'http://localhost:3333' },
+    { id: 1, name: '嘉鹏', serverUrl: 'http://10.1.100.223:6060' },
   ]
 }
 export { server }

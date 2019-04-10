@@ -24,32 +24,6 @@ import ServerSelect from '@component/ServerSelect'
 const { Item } = Form
 
 const { RangePicker } = DatePicker
-const typeArr = [
-  {
-    type: 1,
-    name: '粮草',
-  },
-  {
-    type: 2,
-    name: '木材',
-  },
-  {
-    type: 3,
-    name: '矿石',
-  },
-  {
-    type: 4,
-    name: '石油',
-  },
-  {
-    type: 5,
-    name: 'CT',
-  },
-  {
-    type: 6,
-    name: '兵力',
-  },
-]
 
 const endTime = new Date().setHours(0, 0, 0, 0)
 const startTime = endTime - 24 * 60 * 60 * 1000
@@ -63,10 +37,13 @@ class ResInfo extends Component {
       defaultPageSize: 15,
       total: 0,
     },
-  }
-
-  async componentDidMount() {
-    await this.getChartData()
+    expendData: [],
+    expendLoading: false,
+    expendPagination: {
+      defaultCurrent: 1,
+      defaultPageSize: 15,
+      total: 0,
+    },
   }
 
   handleSubmit = async e => {
@@ -100,12 +77,41 @@ class ResInfo extends Component {
   onOutputPageChange = async (current, pageSize) => {
     // await this.getTableData({ current, pageSize })
   }
+  onExpendPageChange = async (current, pageSize) => {
+    // await this.getTableData({ current, pageSize })
+  }
   render() {
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 21 },
     }
+    const typeArr = [
+      {
+        type: 1,
+        name: '粮草',
+      },
+      {
+        type: 2,
+        name: '木材',
+      },
+      {
+        type: 3,
+        name: '矿石',
+      },
+      {
+        type: 4,
+        name: '石油',
+      },
+      {
+        type: 5,
+        name: 'CT',
+      },
+      {
+        type: 6,
+        name: '兵力',
+      },
+    ]
     const outputColumns = [
       {
         title: '时间',
@@ -122,6 +128,25 @@ class ResInfo extends Component {
       },
       {
         title: '产出途径',
+        dataIndex: 'data4',
+      },
+    ]
+    const expendColumns = [
+      {
+        title: '时间',
+        dataIndex: 'data1',
+        width: 110,
+      },
+      {
+        title: '消耗资源',
+        dataIndex: 'data2',
+      },
+      {
+        title: '消耗数量',
+        dataIndex: 'data3',
+      },
+      {
+        title: '消耗途径',
         dataIndex: 'data4',
       },
     ]
@@ -193,6 +218,22 @@ class ResInfo extends Component {
           pagination={{
             ...this.state.outputPagination,
             onChange: this.onOutputPageChange,
+          }}
+        />
+        <Table
+          columns={expendColumns.map(item => {
+            item.key = item.dataIndex
+            return item
+          })}
+          dataSource={this.state.expendData.map((item, index) => {
+            item.key = index + 1
+            return item
+          })}
+          loading={this.state.loading}
+          bordered={true}
+          pagination={{
+            ...this.state.expendPagination,
+            onChange: this.onExpendPageChange,
           }}
         />
       </div>

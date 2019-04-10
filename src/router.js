@@ -2,9 +2,11 @@ import React from 'react'
 import { Icon } from 'antd'
 import UserCTHoldings from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
-import SendMail from '@pages/Mail/SendMail';
+import SendMail from '@pages/Mail/SendMail'
 import UserInfo from '@pages/UserInfo/UserInfo'
 import ResInfo from '@pages/GeneralData/ResInfo'
+import DevInfo from '@pages/DevelopData/index'
+import BatInfo from '@pages/CombatData/index'
 const router = [
   {
     path: 'general',
@@ -22,6 +24,16 @@ const router = [
         component: <ResInfo />,
       },
     ],
+  },
+  {
+    path: 'develop',
+    title: '养成数据',
+    component: <DevInfo />,
+  },
+  {
+    path: 'combat',
+    title: '战斗数据',
+    component: <BatInfo />,
   },
   {
     path: 'userctholdings',
@@ -46,7 +58,7 @@ const router = [
         path: 'SendMail',
         title: '发送邮件',
         component: <SendMail />,
-      }
+      },
     ],
   },
 ]

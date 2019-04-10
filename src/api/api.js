@@ -1,4 +1,4 @@
 export default {
-  GetGeneralData: '/api/getGeneralData',
-  GetResInfoData: '/api/GetResInfoData',
+  GetGeneralData: '/getData',
+  GetResInfoData: '/GetResInfoData',
 }

@@ -26,6 +26,7 @@ export default class ServerSelect extends Component {
     }
   }
   componentDidMount() {
+    this.setState({ server: server[0].id })
     AppData.server = this.state.server
   }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { server } from '@src/config'
 import ServerSelect from '@component/ServerSelect'
+import { getUserBaseInfo } from '@api/generalData'
 import {
   Card,
   List,
@@ -73,25 +74,87 @@ class UserInfo extends Component {
       showUserInfo: false,
     }
   }
-  async componentWillMount() {
-  }
+  async componentWillMount() {}
   handleSubmit = e => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+        var [data] = await getUserBaseInfo({ uid: values.id })
+        console.log(data, JSON.stringify(data.user.science))
+        const user = data.user
+        var sells={}
+         if(data.sells)
+         {
+           data.sells.forEach(element => {
+             if(!sells[element.item_id])
+             sells[element.item_id]=0
+             sells[element.item_id]+=element.item_count
+           });
+         }
+   
         this.setState({
           showUserInfo: true,
           showType: 'none',
           userBaseData: [
             {
-              id: 0,
-              castle: 0,
-              vip: 0,
+              id: data.user._id,
+              castle: data.user.castle.level,
+              vip: data.user.vip,
               EOS: 0,
               itemEOS: 0,
-              registerTime: 0,
+              registerTime: moment(data.user.reg_time).format(
+                'YYYY/MM/DD HH:mm:ss',
+              ),
               lastLoginTime: 0,
+            },
+          ],
+          userDetailInfoData: [
+            {
+              millLV: data.user.mill.level,
+              mineLV: data.user.mine.level,
+              tecLV: JSON.stringify(data.user.science) || 0,
+              guild: (data.guild && data.guild.name) || '无',
+              guildLV: data.guild ? data.guild.main.level : '无',
+              personalContribution: data.guild_member
+                ? data.guild_member.contribute
+                : '无',
+              guildContribution: data.guild ? data.guild.alter.faith : '无',
+              queueCount: data.user.queue_limit,
+              shield:
+                data.activities.findIndex(item => {
+                  return item.type == 8
+                }) == -1
+                  ? '未开启'
+                  : '开启中',
+              campLV: data.user.camp.level,
+              defenceLV: data.user.defence.level,
+              farm: data.user.farm.level,
+            },
+          ],
+          userAssetInfoData: [
+            {
+              forage: user.bag.forage || 0,
+              wood: user.bag.wood || 0,
+              oil: user.bag.oil || 0,
+              ore1: user.bag.ore1 || 0,
+              ore2: user.bag.ore2 || 0,
+              ore3: user.bag.ore3 || 0,
+              ore4: user.bag.ore4 || 0,
+              ore5: user.bag.ore5 || 0,
+            },
+          ],
+          userOnSaleData: [
+            {
+              forage: sells['forage']||0,
+              wood: sells['wood']||0,
+              oil: sells['oil']||0,
+              ore1: sells['ore1']||0,
+              ore2: sells['ore2']||0,
+              ore3: sells['ore3']||0,
+              ore4: sells['ore4']||0,
+              ore5: sells['ore5']||0,
             },
           ],
         })
@@ -215,8 +278,8 @@ class UserInfo extends Component {
             <br />
             <Form layout="inline" onSubmit={this.handleLogSubmit}>
               <Form.Item>
-                {getFieldDecorator('logtype',{initialValue:'all'})(
-                  <Select >
+                {getFieldDecorator('logtype', { initialValue: 'all' })(
+                  <Select>
                     <Option value="all">资源/道具/兵力/CT日志</Option>
                     <Option value="asset">资源日志</Option>
                     <Option value="item">道具日志</Option>
@@ -225,9 +288,9 @@ class UserInfo extends Component {
                   </Select>,
                 )}
               </Form.Item>
-              <Form.Item label='原因'>
-                {getFieldDecorator('logreason',{initialValue:'all'})(
-                  <Select >
+              <Form.Item label="原因">
+                {getFieldDecorator('logreason', { initialValue: 'all' })(
+                  <Select>
                     <Option value="all">全部</Option>
                   </Select>,
                 )}
@@ -280,13 +343,11 @@ class UserInfo extends Component {
             )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('server', { initialValue:server[0].id })(
-              <ServerSelect style={{ width: 160} }>
-            
-              </ServerSelect>,
+            {getFieldDecorator('server', { initialValue: [server[0].id] })(
+              <ServerSelect style={{ width: 160 }} />,
             )}
           </Form.Item>
-             
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               查询

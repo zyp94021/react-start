@@ -6,12 +6,16 @@ import { random } from 'node-forge'
 import ServerSelect from '@component/ServerSelect'
 import { server } from '@src/config'
 import Player from 'eosplayer'
+import { getUserAddress } from '@api/generalData'
+import AppData from '@src/AppData'
 const { Option } = Select
+const eosplayer = window.eosplayer
 class UserCTHoldings extends Component {
   constructor(props) {
     super(props)
-    this.state = { value: 'all', showData: [] }
+    this.state = { value: 'all', showData: [], loading: false }
   }
+
   handleServerChange = value => {
     if (!('value' in this.props)) {
       this.setState({ value })
@@ -26,22 +30,59 @@ class UserCTHoldings extends Component {
   }
   handleSubmit = v => {
     v.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-    console.log(window['eosplayer'])
         console.log('Received values of form: ', values)
+        this.setState({ loading: true })
+
+        var data = await getUserAddress()
+        if (data) {
+          // data.forEach((element, index) => {
+          //   // ids = ids.concat(element)
+          //   element.forEach(e => {
+
+          //   });
+          // })
+          console.log(AppData)
+          data = data
+            .map((element, index) =>
+              element.map(item => {
+                return {
+                  server: server[index].name,
+                  address: item,
+                  count: '0',
+                }
+              }),
+            )
+            .reduce((a, b) => [...a, ...b])
+        }
+        var infos = await Promise.all(
+          data.map(element => {
+            return eosplayer.chain.getBalance(
+              element.address,
+              'tonartstoken',
+              'CT',
+            )
+          }),
+        )
+        data.map((item, index) => {
+          item.count = infos[index]?infos[index]:'0.0000 CT'
+        })
+        console.log(data)
+        data = data.sort((a, b) => {
+          if (Number(a.count.split(' ')[0]) > Number(b.count.split(' ')[0]))
+            return -1
+          else if (
+            Number(a.count.split(' ')[0]) < Number(b.count.split(' ')[0])
+          )
+            return 1
+          else return 0
+        })
+        console.log(data)
+        this.setState({ loading: false })
+        this.setState({ showData: data })
       }
     })
-    var showData = []
-    for (let i = 0; i < Math.floor(Math.random() * 1000); i++) {
-      showData.push({
-        server: this.state.value,
-        address: this.state.value + '_' + i,
-        count: (Math.random() * 10000).toFixed(0),
-      })
-    }
-    this.setState({ showData: showData })
-    console.log(this.state)
   }
   render() {
     const state = this.state
@@ -68,9 +109,9 @@ class UserCTHoldings extends Component {
         <span className="chooseServer-container">
           <Form layout="inline" onSubmit={this.handleSubmit}>
             <Form.Item label="请选择服务器">
-            {getFieldDecorator('server', {
-              initialValue: [server[0].id],
-            })(<ServerSelect style={{ width: 160 }} />)}
+              {getFieldDecorator('server', {
+                initialValue: [server[0].id],
+              })(<ServerSelect style={{ width: 160 }} />)}
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
@@ -86,7 +127,8 @@ class UserCTHoldings extends Component {
             columns={columns}
             dataSource={state.showData}
             rowKey="address"
-            style={{width:600}}
+            style={{ width: 600 }}
+            loading={this.state.loading}
           />
         </span>
       </div>

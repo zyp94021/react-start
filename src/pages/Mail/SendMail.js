@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import ServerSelect from '@component/ServerSelect'
 import { server } from '@src/config'
+import { sendMails } from '@api/generalData'
+
 import {
   List,
   Icon,
@@ -13,6 +15,7 @@ import {
   Table,
   Row,
   Col,
+  InputNumber 
 } from 'antd'
 const { Option } = Select
 const { TextArea } = Input
@@ -23,6 +26,30 @@ const formItemLayout = {
   wrapperCol: { span: 16 },
 }
 let index = 0
+const item_list = [
+  { id: 1, name: 1 },
+  { id: 2, name: 2 },
+  { id: 3, name: 3 },
+  { id: 4, name: 4 },
+  { id: 5, name: 5 },
+  { id: 6, name: 6 },
+  { id: 7, name: 7 },
+  { id: 8, name: 8 },
+  { id: 9, name: 9 },
+  { id: 10, name: 10 },
+  { id: 11, name: 11 },
+  { id: 12, name: 12 },
+  { id: 13, name: 13 },
+  { id: 14, name: 14 },
+  { id: 15, name: 15 },
+  { id: 1001001, name: 1001001 },
+  { id: 1001002, name: 1001002 },
+  { id: 1002001, name: 1002001 },
+  { id: 1002005, name: 1002005 },
+  { id: 1003001, name: 1003001 },
+  { id: 1003002, name: 1003002 },
+  { id: 1004001, name: 1004001 },
+]
 class SendMail extends Component {
   constructor(props) {
     super(props)
@@ -30,7 +57,6 @@ class SendMail extends Component {
   async componentDidMount() {
     index = 0
   }
-
   handleAddAttachment = e => {
     const { form } = this.props
     const keys = form.getFieldValue('attachment_key')
@@ -42,7 +68,6 @@ class SendMail extends Component {
     form.setFieldsValue({
       attachment: v,
     })
-    console.log(form.getFieldValue('attachment'))
   }
   removeAttachment = k => {
     const { form } = this.props
@@ -50,17 +75,44 @@ class SendMail extends Component {
     form.setFieldsValue({
       attachment: keys.filter(key => key.index !== k.index),
     })
-    console.log(form.getFieldValue('attachment'))
   }
 
   handleSubmit = v => {
     v.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields( async (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-      }
+       var adds=values.sendusers.split(',')
+       var mails=[]
+       var send_items={}
+       if(values.attachment)
+       {
+        values.attachment.forEach(element => {
+          send_items[element.id]=element.count
+         });
+       }
+       adds.forEach(element => {
+         mails.push(
+          {
+            uid: element,
+            sid: "system",
+            items: send_items,
+            title: values.mailtitle,
+            content: values.mailcontent,
+            time: Date.now(),
+            read_status: 0,
+            receive_status: 0,
+            deleted: false
+          },
+         )
+       });
+       console.log(mails)
+      var req= await sendMails({mail_info_arr:mails})
+    console.log(req)  
+    }
     })
   }
+
   render() {
     const { getFieldDecorator } = this.props.form
     getFieldDecorator('attachment', { initialValue: [] })
@@ -88,7 +140,7 @@ class SendMail extends Component {
                 wrapperCol={{ span: 20 }}
               >
                 {getFieldDecorator('server', {
-                  initialValue: server[0].id,
+                  initialValue: [server[0].id],
                 })(<ServerSelect style={{ width: 160 }} />)}
               </Form.Item>
             </Col>
@@ -98,7 +150,7 @@ class SendMail extends Component {
               rules: [{ required: true, message: '请输入玩家账号！' }],
             })(
               <TextArea
-                placeholder="多个玩家用英文都好分隔"
+                placeholder="多个玩家用英文逗号分隔"
                 autosize={{ minRows: 2, maxRows: 6 }}
               />,
             )}
@@ -132,12 +184,15 @@ class SendMail extends Component {
               >
                 {getFieldDecorator('attachment_key')(
                   <Select style={{ width: 160 }}>
-                    <Option value="item1">item1</Option>
+                    {/* <Option value="item1">item1</Option>
                     <Option value="item2">item2</Option>
                     <Option value="item3">item3</Option>
                     <Option value="item4">item4</Option>
                     <Option value="item5">item5</Option>
-                    <Option value="item6">item6</Option>
+                    <Option value="item6">item6</Option> */}
+                    {item_list.map(item => {
+                      return <Option key={item.id} value={item.id}>{item.name}</Option>
+                    })}
                   </Select>,
                 )}
               </Form.Item>
@@ -145,9 +200,10 @@ class SendMail extends Component {
             <Col span={12}>
               <Form.Item labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
                 {getFieldDecorator('attachmentcount_key')(
-                  <Input
+                  <InputNumber 
                     addonBefore="数量"
                     style={{ width: 200, marginLeft: 20 }}
+                    min={1}
                   />,
                 )}
                 <Button

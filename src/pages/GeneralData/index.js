@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Col, Row, Form, DatePicker, Button, Table, Select } from 'antd'
 import ServerSelect from '@component/ServerSelect'
 import moment from 'moment'
-import { getGeneralData } from '@api/generalData'
+import { getGeneralData } from '@api'
 import { server } from '@src/config'
 const todayData = {
   reg_count: {

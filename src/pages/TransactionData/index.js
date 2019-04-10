@@ -19,8 +19,8 @@ import {
 } from 'bizcharts'
 import DataSet from '@antv/data-set'
 
-import { getAuctionData } from '@api/index'
-console.log(getAuctionData)
+import { getAuctionData } from '@api'
+import { server } from '@src/config'
 const endTime = new Date().setHours(0, 0, 0, 0)
 const startTime = endTime - 24 * 60 * 60 * 1000 * 7
 
@@ -58,9 +58,9 @@ class TransInfo extends Component {
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Item label="选择服务器">
-            {getFieldDecorator('server')(
-              <ServerSelect style={{ width: 350 }} />,
-            )}
+            {getFieldDecorator('server', {
+              initialValue: [server[0].id],
+            })(<ServerSelect style={{ width: 350 }} />)}
           </Item>
           <Item label="时间">
             {getFieldDecorator('time', {
@@ -79,7 +79,7 @@ class TransInfo extends Component {
             <Table columns={priceColumns} />
           </Col>
           <Col span={20}>
-            <Chart />
+            <Chart height={400} />
           </Col>
         </Row>
         <Row>
@@ -87,7 +87,7 @@ class TransInfo extends Component {
             <Table />
           </Col>
           <Col span={20}>
-            <Chart />
+            <Chart height={400} />
           </Col>
         </Row>
       </div>

@@ -17,7 +17,7 @@ import {
   Util,
 } from 'bizcharts'
 import DataSet from '@antv/data-set'
-import { getServerData, getResInfoData } from '@api/generalData'
+import { getServerData, getResInfoData } from '@api'
 import { server } from '@src/config'
 import AppData from '@src/AppData'
 import ServerSelect from '@component/ServerSelect'

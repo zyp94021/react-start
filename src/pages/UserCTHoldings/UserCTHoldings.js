@@ -5,6 +5,7 @@ import { Table, Divider, Tag } from 'antd'
 import { random } from 'node-forge'
 import ServerSelect from '@component/ServerSelect'
 import { server } from '@src/config'
+import Player from 'eosplayer'
 const { Option } = Select
 class UserCTHoldings extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class UserCTHoldings extends Component {
     v.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+    console.log(window['eosplayer'])
         console.log('Received values of form: ', values)
       }
     })

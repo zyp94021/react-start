@@ -39,6 +39,7 @@
     "@babel/polyfill": "^7.4.0",
     "antd": "^3.16.1",
     "bizcharts": "^3.5.2",
+    "eosplayer": "^0.5.11",
     "moment": "^2.24.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",

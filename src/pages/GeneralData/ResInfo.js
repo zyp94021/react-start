@@ -56,6 +56,13 @@ const startTime = endTime - 24 * 60 * 60 * 1000
 class ResInfo extends Component {
   state = {
     chartData: null,
+    outputData: [],
+    outputLoading: false,
+    outputPagination: {
+      defaultCurrent: 1,
+      defaultPageSize: 15,
+      total: 0,
+    },
   }
 
   async componentDidMount() {
@@ -90,12 +97,34 @@ class ResInfo extends Component {
     })
     this.setState({ chartData: dv })
   }
+  onOutputPageChange = async (current, pageSize) => {
+    // await this.getTableData({ current, pageSize })
+  }
   render() {
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 21 },
     }
+    const outputColumns = [
+      {
+        title: '时间',
+        dataIndex: 'data1',
+        width: 110,
+      },
+      {
+        title: '产出资源',
+        dataIndex: 'data2',
+      },
+      {
+        title: '产出数量',
+        dataIndex: 'data3',
+      },
+      {
+        title: '产出途径',
+        dataIndex: 'data4',
+      },
+    ]
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -150,6 +179,22 @@ class ResInfo extends Component {
             }}
           />
         </Chart>
+        <Table
+          columns={outputColumns.map(item => {
+            item.key = item.dataIndex
+            return item
+          })}
+          dataSource={this.state.outputData.map((item, index) => {
+            item.key = index + 1
+            return item
+          })}
+          loading={this.state.loading}
+          bordered={true}
+          pagination={{
+            ...this.state.outputPagination,
+            onChange: this.onOutputPageChange,
+          }}
+        />
       </div>
     )
   }

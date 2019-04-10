@@ -25,10 +25,7 @@ export default class ServerSelect extends Component {
       onChange(Object.assign({}, this.state, changedValue))
     }
   }
-  componentWillMount() {
-    AppData.server = server[0].id
-  }
-  componentWillUnmount() {
+  componentDidMount() {
     AppData.server = this.state.server
   }
 

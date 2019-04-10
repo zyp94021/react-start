@@ -5,6 +5,7 @@ import GeneralData from '@pages/GeneralData/index'
 import SendMail from '@pages/Mail/SendMail';
 import UserInfo from '@pages/UserInfo/UserInfo'
 import ResInfo from '@pages/GeneralData/ResInfo'
+import MailHistroy from '@pages/Mail/MailHistroy';
 const router = [
   {
     path: 'general',
@@ -32,7 +33,6 @@ const router = [
     path: 'menu2',
     title: (
       <span>
-        <Icon type="user" />
         <span>用户信息查询</span>
       </span>
     ),
@@ -46,6 +46,11 @@ const router = [
         path: 'SendMail',
         title: '发送邮件',
         component: <SendMail />,
+      },
+      {
+        path: 'MailHistroy',
+        title: '邮件记录',
+        component: <MailHistroy />,
       }
     ],
   },

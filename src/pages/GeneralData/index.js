@@ -1,19 +1,11 @@
 import React, { Component } from 'react'
-import {
-  Card,
-  Col,
-  Row,
-  Form,
-  DatePicker,
-  Input,
-  Button,
-  Table,
-  Select,
-} from 'antd'
+import { Card, Col, Row, Form, DatePicker, Button, Table, Select } from 'antd'
 import moment from 'moment'
-import { getGeneralData, getServerData } from '@api/generalData'
+import { getGeneralData } from '@api/generalData'
+import { server } from '@src/config'
+import AppData from '@src/AppData'
+import ServerSelect from '@component/ServerSelect'
 const { Item } = Form
-const { Option } = Select
 const { RangePicker } = DatePicker
 const todayData = {
   data1: {
@@ -53,30 +45,132 @@ const todayData = {
     data: 0,
   },
 }
+const tableColumnsData = [
+  {
+    title: '日期',
+    dataIndex: 'data1',
+    width: 110,
+  },
+  {
+    title: '新增注册',
+    dataIndex: 'data2',
+  },
+  {
+    title: '新增激活',
+    dataIndex: 'data3',
+  },
+  {
+    title: '日活跃用户',
+    dataIndex: 'data4',
+  },
+  {
+    title: '付费人数',
+    dataIndex: 'data5',
+  },
+  {
+    title: 'eos流水',
+    dataIndex: 'data6',
+  },
+  {
+    title: '付费率',
+    dataIndex: 'data7',
+  },
+  {
+    title: 'APRU',
+    dataIndex: 'data8',
+  },
+  {
+    title: 'ARPPU',
+    dataIndex: 'data9',
+  },
+  {
+    title: '次留',
+    dataIndex: 'data10',
+  },
+  {
+    title: '7留',
+    dataIndex: 'data11',
+  },
+  {
+    title: '30留',
+    dataIndex: 'data12',
+  },
+  {
+    title: '特权购买',
+    dataIndex: 'data13',
+  },
+  {
+    title: '商城购买',
+    dataIndex: 'data14',
+  },
+  {
+    title: '礼包购买',
+    dataIndex: 'data15',
+  },
+  {
+    title: '交易所',
+    dataIndex: 'data16',
+  },
+  {
+    title: '其它',
+    dataIndex: 'data17',
+  },
+]
+const endTime = new Date().setHours(0, 0, 0, 0)
+const startTime = endTime - 24 * 60 * 60 * 1000 * 7
+
 class GeneralData extends Component {
   state = {
     todayData,
-    serverData: [{ id: 0, name: '所有服务器' }],
+    tableData: [],
+    loading: false,
+    pagination: {
+      defaultCurrent: 1,
+      defaultPageSize: 15,
+      total: 0,
+    },
+  }
+  onPageChange = async (current, pageSize) => {
+    await this.getTableData({ current, pageSize })
   }
   async componentWillMount() {
-    const { result: data } = await getGeneralData({
-      timestamp: Date.now(),
+    await this.getTodayData()
+  }
+  async componentDidMount() {
+    await this.getTableData()
+  }
+  getTableData = async query => {
+    this.setState({ loading: true })
+    const formQuery = {
+      startTime: this.props.form.getFieldValue('time')[0].valueOf(),
+      endTime: this.props.form.getFieldValue('time')[1].valueOf(),
+      current: this.state.pagination.defaultCurrent,
+      pageSize: this.state.pagination.defaultPageSize,
+    }
+    const [{ result: tableData }] = await getGeneralData({
+      ...formQuery,
+      ...query,
+    })
+    this.setState({ tableData, loading: false })
+  }
+  getTodayData = async () => {
+    const [{ result: data }] = await getGeneralData({
+      startTime: Date.now(),
+      serverId: 0,
     })
     const todayData = this.state.todayData
     Object.entries(data).map(data => (todayData[data[0]].data = data[1]))
-    let { result: serverData } = await getServerData()
-    serverData = [this.state.serverData[0], ...serverData]
-    this.setState({ todayData, serverData })
   }
-  handleSubmit = e => {
+
+  handleSubmit = async e => {
     e.preventDefault()
-    console.log(this.props.form.getFieldsValue())
+    await this.getTableData()
   }
   render() {
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 21 },
+      labelCol: { span: 2 },
+      wrapperCol: { span: 22 },
     }
     return (
       <div>
@@ -96,31 +190,33 @@ class GeneralData extends Component {
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Item label="选择服务器">
             {getFieldDecorator('server', {
-              initialValue: this.state.serverData[0].id,
-            })(
-              <Select style={{ width: 160 }}>
-                {this.state.serverData.map(item => (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>,
-            )}
+              initialValue: [server[0].id],
+            })(<ServerSelect style={{ width: 350 }} />)}
           </Item>
           <Item label="时间">
             {getFieldDecorator('time', {
-              initialValue: [
-                moment(Date.now() - 7 * 24 * 60 * 60 * 1000),
-                moment(Date.now()),
-              ],
-            })(<RangePicker />)}
+              initialValue: [moment(startTime), moment(endTime)],
+            })(<RangePicker allowClear={false} />)}
           </Item>
-          <Item wrapperCol={{ span: 21, offset: 3 }}>
+          <Item wrapperCol={{ span: 22, offset: 2 }}>
             <Button type="primary" htmlType="submit">
               查询
             </Button>
           </Item>
         </Form>
+        <Table
+          columns={tableColumnsData.map(item => {
+            item.key = item.dataIndex
+            return item
+          })}
+          dataSource={this.state.tableData.map((item, index) => {
+            item.key = index + 1
+            return item
+          })}
+          loading={this.state.loading}
+          bordered={true}
+          pagination={{ ...this.state.pagination, onChange: this.onPageChange }}
+        />
       </div>
     )
   }

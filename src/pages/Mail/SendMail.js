@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { getServerData } from '@api/generalData'
+import ServerSelect from '@component/ServerSelect'
+import { server } from '@src/config'
 import {
   List,
   Icon,
@@ -25,12 +26,8 @@ let index = 0
 class SendMail extends Component {
   constructor(props) {
     super(props)
-    this.state = { serverData: [] }
   }
   async componentDidMount() {
-    let { result: serverData } = await getServerData()
-    this.setState({ serverData })
-    console.log(this.state)
     index = 0
   }
 
@@ -91,18 +88,10 @@ class SendMail extends Component {
                 wrapperCol={{ span: 20 }}
               >
                 {getFieldDecorator('server', {
-                  initialValue:
-                    this.state.serverData.length > 0
-                      ? this.state.serverData[0].id
-                      : null,
+                  initialValue:server[0].id
                 })(
-                  <Select style={{ width: 160 }}>
-                    {this.state.serverData.map(item => (
-                      <Option key={item.id} value={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </Select>,
+                  <ServerSelect style={{ width: 160 }}>
+                  </ServerSelect>,
                 )}
               </Form.Item>
             </Col>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { getServerData } from '@api/generalData'
+import { server } from '@src/config'
+import ServerSelect from '@component/ServerSelect'
 import {
   Card,
   List,
@@ -64,7 +65,6 @@ class UserInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      serverData:[],
       userBaseData: [],
       userDetailInfoData: [],
       userAssetInfoData: [],
@@ -74,8 +74,6 @@ class UserInfo extends Component {
     }
   }
   async componentWillMount() {
-    let { result: serverData } = await getServerData()
-    this.setState({ serverData })
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -282,14 +280,10 @@ class UserInfo extends Component {
             )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('server', { initialValue:this.state.serverData.length>0?this.state.serverData[0].id:null })(
-              <Select style={{ width: 160} }>
-                {this.state.serverData.map(item => (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>,
+          {getFieldDecorator('server', { initialValue:server[0].id })(
+              <ServerSelect style={{ width: 160} }>
+            
+              </ServerSelect>,
             )}
           </Form.Item>
 

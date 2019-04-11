@@ -18,14 +18,14 @@ class App extends Component {
       AppData.username = username
       localStorage.setItem('token', AppData.token)
       this.setState({
-        token: AppData.token
+        token: AppData.token,
       })
     })
     eventBus.addEventListener('logout', () => {
       AppData.token = ''
       localStorage.removeItem('token')
       this.setState({
-        token: AppData.token
+        token: AppData.token,
       })
     })
     const token = localStorage.getItem('token')
@@ -37,7 +37,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Route
+        {/* <Route
           path="/"
           exact
           render={() =>
@@ -47,11 +47,11 @@ class App extends Component {
               <Redirect to="/login" />
             )
           }
-        />
+        /> */}
+        <Route path="/" exact render={() => <Redirect to="/home" />} />
         <Switch>
           <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
-
+          {/* <Route path="/login" component={Login} /> */}
         </Switch>
       </Router>
     )

@@ -192,7 +192,10 @@ class GeneralData extends Component {
           }
         },
       },
-    ]
+    ].map(item => {
+      item.key = item.dataIndex
+      return item
+    })
     return (
       <div>
         <Row gutter={16}>
@@ -226,10 +229,7 @@ class GeneralData extends Component {
           </Item>
         </Form>
         <Table
-          columns={tableColumnsData.map(item => {
-            item.key = item.dataIndex
-            return item
-          })}
+          columns={tableColumnsData}
           dataSource={this.state.tableData.map((item, index) => {
             item.key = index + 1
             return item

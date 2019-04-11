@@ -130,7 +130,10 @@ class ResInfo extends Component {
         title: '产出途径',
         dataIndex: 'data4',
       },
-    ]
+    ].map(item => {
+      item.key = item.dataIndex
+      return item
+    })
     const expendColumns = [
       {
         title: '时间',
@@ -149,7 +152,10 @@ class ResInfo extends Component {
         title: '消耗途径',
         dataIndex: 'data4',
       },
-    ]
+    ].map(item => {
+      item.key = item.dataIndex
+      return item
+    })
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -205,10 +211,7 @@ class ResInfo extends Component {
           />
         </Chart>
         <Table
-          columns={outputColumns.map(item => {
-            item.key = item.dataIndex
-            return item
-          })}
+          columns={outputColumns}
           dataSource={this.state.outputData.map((item, index) => {
             item.key = index + 1
             return item
@@ -221,10 +224,7 @@ class ResInfo extends Component {
           }}
         />
         <Table
-          columns={expendColumns.map(item => {
-            item.key = item.dataIndex
-            return item
-          })}
+          columns={expendColumns}
           dataSource={this.state.expendData.map((item, index) => {
             item.key = index + 1
             return item

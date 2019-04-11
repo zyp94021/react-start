@@ -83,17 +83,17 @@ class UserInfo extends Component {
         console.log('Received values of form: ', values)
         var [data] = await getUserBaseInfo({ uid: values.id })
         console.log(data, JSON.stringify(data.user.science))
+        var eos= await eosplayer.chain.getBalance(element.address, 'eosio.token', 'EOS')
         const user = data.user
-        var sells={}
-         if(data.sells)
-         {
-           data.sells.forEach(element => {
-             if(!sells[element.item_id])
-             sells[element.item_id]=0
-             sells[element.item_id]+=element.item_count
-           });
-         }
-   
+        var sells = {}
+
+        if (data.sells) {
+          data.sells.forEach(element => {
+            if (!sells[element.item_id]) sells[element.item_id] = 0
+            sells[element.item_id] += element.item_count
+          })
+        }
+
         this.setState({
           showUserInfo: true,
           showType: 'none',
@@ -102,7 +102,7 @@ class UserInfo extends Component {
               id: data.user._id,
               castle: data.user.castle.level,
               vip: data.user.vip,
-              EOS: 0,
+              EOS: eos,
               itemEOS: 0,
               registerTime: moment(data.user.reg_time).format(
                 'YYYY/MM/DD HH:mm:ss',
@@ -147,14 +147,14 @@ class UserInfo extends Component {
           ],
           userOnSaleData: [
             {
-              forage: sells['forage']||0,
-              wood: sells['wood']||0,
-              oil: sells['oil']||0,
-              ore1: sells['ore1']||0,
-              ore2: sells['ore2']||0,
-              ore3: sells['ore3']||0,
-              ore4: sells['ore4']||0,
-              ore5: sells['ore5']||0,
+              forage: sells['forage'] || 0,
+              wood: sells['wood'] || 0,
+              oil: sells['oil'] || 0,
+              ore1: sells['ore1'] || 0,
+              ore2: sells['ore2'] || 0,
+              ore3: sells['ore3'] || 0,
+              ore4: sells['ore4'] || 0,
+              ore5: sells['ore5'] || 0,
             },
           ],
         })

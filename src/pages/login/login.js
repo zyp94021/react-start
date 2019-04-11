@@ -75,7 +75,7 @@ class Login extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            <Button type='primary' htmlType='submit'>
+            <Button  className='submit-button' type='primary' htmlType='submit'>
               Log in
             </Button>
           </Form.Item>

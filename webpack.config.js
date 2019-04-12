@@ -2,9 +2,11 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const apiMocker = require('mocker-api')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: ['./src/index.js'],
-  mode: 'development',
   module: {
     rules: [
       {
@@ -39,7 +41,6 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    publicPath: '/dist/',
     filename: 'bundle.js',
   },
   devServer: {
@@ -50,17 +51,29 @@ module.exports = {
     hotOnly: true,
     before(app) {
       if (process.env.MOCK_ENV) {
-        apiMocker(app, path.resolve('./mocker/index.js'))
+        apiMocker(app, path.resolve(__dirname, 'mocker/index.js'))
       }
     },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(),
+    new CopyPlugin([
+      {
+        from: path.resolve(__dirname, 'public'),
+        to: path.resolve(__dirname, 'dist'),
+      },
+    ]),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: 'dist/[name].css',
-      chunkFilename: 'dist/[name].css',
+      filename: '[name].css',
+      chunkFilename: '[name].css',
+    }),
+    new HtmlWebpackPlugin({
+      title: 'slg后台',
+      filename: 'index.html',
+      template: 'src/tel.html',
     }),
   ],
 }

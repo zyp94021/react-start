@@ -83,7 +83,11 @@ class UserInfo extends Component {
         console.log('Received values of form: ', values)
         var [data] = await getUserBaseInfo({ uid: values.id })
         console.log(data, JSON.stringify(data.user.science))
-        var eos= await eosplayer.chain.getBalance(element.address, 'eosio.token', 'EOS')
+        var eos = await eosplayer.chain.getBalance(
+          values.id,
+          'eosio.token',
+          'EOS',
+        )
         const user = data.user
         var sells = {}
 
@@ -120,7 +124,9 @@ class UserInfo extends Component {
               personalContribution: data.guild_member
                 ? data.guild_member.contribute
                 : '无',
-              guildContribution: data.guild ? data.guild.alter.faith : '无',
+              guildContribution:
+                (data.guild && data.guild.alter && data.guild.alter.faith) ||
+                '无',
               queueCount: data.user.queue_limit,
               shield:
                 data.activities.findIndex(item => {

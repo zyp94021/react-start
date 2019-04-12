@@ -5,75 +5,77 @@ const apiMocker = require('mocker-api')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-module.exports = {
-  entry: ['./src/index.js'],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-        options: { presets: ['@babel/env'] },
+module.exports = (env, argv) => {
+  return {
+    entry: ['./src/index.js'],
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel-loader',
+          options: { presets: ['@babel/env'] },
+        },
+        {
+          test: /\.(css|less)$/,
+          use: [
+            argv.mode !== 'production'
+              ? 'style-loader'
+              : MiniCssExtractPlugin.loader, // 将 JS 字符串生成为 style 节点
+            'css-loader', // 将 CSS 转化成 CommonJS 模块
+            'postcss-loader',
+            'less-loader', // 将 less 编译成 CSS,
+          ],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['*', '.js', '.jsx'],
+      alias: {
+        '@src': path.resolve('src'),
+        '@api': path.resolve('src/api'),
+        '@component': path.resolve('src/component'),
+        '@pages': path.resolve('src/pages'),
+        '@utils': path.resolve('src/utils'),
+        '@component': path.resolve('src/component'),
       },
-      {
-        test: /\.(css|less)$/,
-        use: [
-          process.env.NODE_ENV !== 'production'
-            ? 'style-loader'
-            : MiniCssExtractPlugin.loader, // 将 JS 字符串生成为 style 节点
-          'css-loader', // 将 CSS 转化成 CommonJS 模块
-          'postcss-loader',
-          'less-loader', // 将 less 编译成 CSS,
-        ],
+    },
+    output: {
+      path: path.resolve(__dirname, 'dist/'),
+      // filename: '[name].[hash].js',
+      filename: 'bundle.js',
+    },
+    devServer: {
+      contentBase: path.join(__dirname, 'public/'),
+      host: 'localhost',
+      port: 3333,
+      publicPath: 'http://localhost:3333/dist/',
+      hotOnly: true,
+      before(app) {
+        if (process.env.MOCK_ENV) {
+          apiMocker(app, path.resolve(__dirname, 'mocker/index.js'))
+        }
       },
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      // new CleanWebpackPlugin(),
+      new CopyPlugin([
+        {
+          from: path.resolve(__dirname, 'public'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+      ]),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
+      new HtmlWebpackPlugin({
+        title: 'slg后台',
+        inject: false,
+        hash: true,
+        filename: 'index.html',
+        template: 'src/tel.html',
+      }),
     ],
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx'],
-    alias: {
-      '@src': path.resolve('src'),
-      '@api': path.resolve('src/api'),
-      '@component': path.resolve('src/component'),
-      '@pages': path.resolve('src/pages'),
-      '@utils': path.resolve('src/utils'),
-      '@component': path.resolve('src/component'),
-    },
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist/'),
-    filename: 'bundle.js',
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'public/'),
-    host: 'localhost',
-    port: 3333,
-    publicPath: 'http://localhost:3333/dist/',
-    hotOnly: true,
-    before(app) {
-      if (process.env.MOCK_ENV) {
-        apiMocker(app, path.resolve(__dirname, 'mocker/index.js'))
-      }
-    },
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin(),
-    new CopyPlugin([
-      {
-        from: path.resolve(__dirname, 'public'),
-        to: path.resolve(__dirname, 'dist'),
-      },
-    ]),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[name].css',
-    }),
-    new HtmlWebpackPlugin({
-      title: 'slg后台',
-      filename: 'index.html',
-      template: 'src/tel.html',
-    }),
-  ],
+  }
 }

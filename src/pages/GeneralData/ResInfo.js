@@ -48,8 +48,8 @@ class ResInfo extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
-    AppData.server = this.props.form.getFieldValue('server')
-    await this.getChartData()
+    // AppData.server = this.props.form.getFieldValue('server')
+    // await this.getChartData()
   }
   getChartData = async () => {
     const query = {

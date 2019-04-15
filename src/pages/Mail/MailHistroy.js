@@ -187,7 +187,7 @@ class MailHistroy extends Component {
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              发送
+              查询
             </Button>
           </Form.Item>
         </Form>

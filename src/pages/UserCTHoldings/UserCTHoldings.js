@@ -34,26 +34,15 @@ class UserCTHoldings extends Component {
         console.log('Received values of form: ', values)
         this.setState({ loading: true })
 
-        var data = await getUserAddress()
+        var [data] = await getUserAddress()
         if (data) {
-          // data.forEach((element, index) => {
-          //   // ids = ids.concat(element)
-          //   element.forEach(e => {
-
-          //   });
-          // })
-          console.log(AppData)
-          data = data
-            .map((element, index) =>
-              element.map(item => {
-                return {
-                  server: server[index].name,
-                  address: item,
-                  count: '0',
-                }
-              }),
-            )
-            .reduce((a, b) => [...a, ...b])
+          data = data.map((item, index) => {
+            return {
+              server: server.find(item => item.id === AppData.server[0]).name,
+              address: item,
+              count: '0',
+            }
+          })
         }
         var infos = await Promise.all(
           data.map(element => {
@@ -67,7 +56,6 @@ class UserCTHoldings extends Component {
         data.map((item, index) => {
           item.count = infos[index] ? infos[index] : '0.0000 CT'
         })
-        console.log(data)
         data = data.sort((a, b) => {
           if (Number(a.count.split(' ')[0]) > Number(b.count.split(' ')[0]))
             return -1

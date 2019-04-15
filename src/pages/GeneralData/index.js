@@ -79,7 +79,7 @@ class GeneralData extends Component {
   }
   getTodayData = async () => {
     const now = moment(new Date())
-      .subtract(1, 'days')
+      .add(1, 'days')
       .toDate()
     const [[data]] = await getGeneralData({
       end: now.getTime(),
@@ -89,6 +89,13 @@ class GeneralData extends Component {
     Object.entries(data).map(data =>
       todayData[data[0]] ? (todayData[data[0]].data = data[1]) : null,
     )
+    const costfunc = data.costfunc || {}
+    const buyCommodity = costfunc.buyCommodity || 0
+    const buyHammer = costfunc.buyHammer || 0
+    const changecastle = costfunc.changecastle || 0
+    const finishAct = costfunc.finishAct || 0
+    todayData.data4.data = buyCommodity + buyHammer + changecastle + finishAct
+    this.setState({ todayData })
   }
 
   handleSubmit = async e => {
@@ -132,6 +139,18 @@ class GeneralData extends Component {
       {
         title: 'eos流水',
         dataIndex: 'data6',
+        render: (text, record) => {
+          if (record.costfunc) {
+            const costfunc = record.costfunc
+            const buyCommodity = costfunc.buyCommodity || 0
+            const buyHammer = costfunc.buyHammer || 0
+            const changecastle = costfunc.changecastle || 0
+            const finishAct = costfunc.finishAct || 0
+            return buyCommodity + buyHammer + changecastle + finishAct
+          } else {
+            return 0
+          }
+        },
       },
       {
         title: '付费率',
@@ -164,6 +183,15 @@ class GeneralData extends Component {
       {
         title: '商城购买',
         dataIndex: 'data14',
+        render: (text, record) => {
+          if (record.costfunc) {
+            const costfunc = record.costfunc
+            const buyCommodity = costfunc.buyCommodity || 0
+            return buyCommodity
+          } else {
+            return 0
+          }
+        },
       },
       {
         title: '礼包购买',
@@ -182,11 +210,10 @@ class GeneralData extends Component {
         render: (text, record) => {
           if (record.costfunc) {
             const costfunc = record.costfunc
-            const buyCommodity = costfunc.buyCommodity || 0
             const buyHammer = costfunc.buyHammer || 0
             const changecastle = costfunc.changecastle || 0
             const finishAct = costfunc.finishAct || 0
-            return buyCommodity + buyHammer + changecastle + finishAct
+            return buyHammer + changecastle + finishAct
           } else {
             return 0
           }

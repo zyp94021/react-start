@@ -106,12 +106,15 @@ class SendMail extends Component {
         })
         console.log(mails)
         try {
-          await sendMails({ mail_info_arr: mails })
-          message.success('发送成功')
-          this.props.form.resetFields()
+          const [data] = await sendMails({ mail_info_arr: mails })
+          if (data.result) {
+            message.success('发送成功')
+            this.props.form.resetFields()
+          } else {
+            message.error('发送失败')
+          }
         } catch (error) {
-          console.log(error)
-          message.error('发送失败')
+          message.error(error)
         }
       }
     })

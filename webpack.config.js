@@ -42,7 +42,6 @@ module.exports = (env, argv) => {
     },
     output: {
       path: path.resolve(__dirname, 'dist/'),
-      // filename: '[name].[hash].js',
       filename: 'bundle.js',
     },
     devServer: {
@@ -57,25 +56,25 @@ module.exports = (env, argv) => {
         }
       },
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      // new CleanWebpackPlugin(),
-      new CopyPlugin([
-        {
-          from: path.resolve(__dirname, 'public'),
-          to: path.resolve(__dirname, 'dist'),
-        },
-      ]),
-      new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css',
-      }),
-      new HtmlWebpackPlugin({
-        title: 'slg后台',
-        inject: false,
-        hash: true,
-        filename: 'index.html',
-        template: 'src/tel.html',
-      }),
-    ],
+    plugins:
+      argv.mode !== 'production'
+        ? [new webpack.HotModuleReplacementPlugin()]
+        : [
+            new HtmlWebpackPlugin({
+              title: 'slg后台',
+              filename: 'index.html',
+              template: 'src/tel.html',
+            }),
+            new CopyPlugin([
+              {
+                from: path.resolve(__dirname, 'public'),
+                to: path.resolve(__dirname, 'dist'),
+              },
+            ]),
+            new MiniCssExtractPlugin({
+              filename: 'main.css',
+            }),
+            new CleanWebpackPlugin(),
+          ],
   }
 }

@@ -18,7 +18,7 @@ export default class Chat extends Component {
     messages.push(message)
     this.setState({ messages })
   }
-  componentDidMount() {
+  componentDidMount() { 
     console.log('mount')
     if (!this.ws) this.ws = io('ws://localhost:3001')
     this.ws.on('message', data => {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from 'antd'
 import UserCTHoldings from '@pages/UserCTHoldings/UserCTHoldings'
 import GeneralData from '@pages/GeneralData/index'
 import SendMail from '@pages/Mail/SendMail'

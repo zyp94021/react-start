@@ -101,6 +101,7 @@ class GeneralData extends Component {
     const createguild = costfunc.createguild || 0
     const covercastle = costfunc.covercastle || 0
     const changeGuild = costfunc.changeGuild || 0
+    const tradebuy = costfunc.tradebuy || 0
     todayData.data4.data =
       buyCommodity +
       buyHammer +
@@ -109,6 +110,7 @@ class GeneralData extends Component {
       createguild +
       covercastle +
       changeGuild
+    todayData.tradebuy.data = tradebuy
     this.setState({ todayData })
   }
 
@@ -163,6 +165,7 @@ class GeneralData extends Component {
             const createguild = costfunc.createguild || 0
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
+            const tradebuy = costfunc.tradebuy || 0
             return (
               buyCommodity +
               buyHammer +
@@ -170,7 +173,8 @@ class GeneralData extends Component {
               finishAct +
               createguild +
               covercastle +
-              changeGuild
+              changeGuild +
+              tradebuy
             )
           } else {
             return 0
@@ -225,8 +229,14 @@ class GeneralData extends Component {
       {
         title: '交易所',
         dataIndex: 'tradebuy',
-        render: text => {
-          return text || 0
+        render: (text, record) => {
+          if (record.costfunc) {
+            const costfunc = record.costfunc
+            const tradebuy = costfunc.tradebuy || 0
+            return tradebuy
+          } else {
+            return 0
+          }
         },
       },
       {
@@ -242,6 +252,7 @@ class GeneralData extends Component {
             const createguild = costfunc.createguild || 0
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
+            const tradebuy = costfunc.tradebuy || 0
             return (
               buyCommodity +
               buyHammer +
@@ -249,7 +260,8 @@ class GeneralData extends Component {
               finishAct +
               createguild +
               covercastle +
-              changeGuild
+              changeGuild +
+              tradebuy
             )
           } else {
             return 0

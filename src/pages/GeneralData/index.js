@@ -252,7 +252,6 @@ class GeneralData extends Component {
             const createguild = costfunc.createguild || 0
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
-            const tradebuy = costfunc.tradebuy || 0
             return (
               buyCommodity +
               buyHammer +
@@ -260,8 +259,7 @@ class GeneralData extends Component {
               finishAct +
               createguild +
               covercastle +
-              changeGuild +
-              tradebuy
+              changeGuild
             )
           } else {
             return 0

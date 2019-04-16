@@ -109,7 +109,8 @@ class GeneralData extends Component {
       finishAct +
       createguild +
       covercastle +
-      changeGuild
+      changeGuild +
+      tradebuy
     todayData.tradebuy.data = tradebuy
     this.setState({ todayData })
   }
@@ -245,7 +246,6 @@ class GeneralData extends Component {
         render: (text, record) => {
           if (record.costfunc) {
             const costfunc = record.costfunc
-            const buyCommodity = costfunc.buyCommodity || 0
             const buyHammer = costfunc.buyHammer || 0
             const changecastle = costfunc.changecastle || 0
             const finishAct = costfunc.finishAct || 0
@@ -253,7 +253,6 @@ class GeneralData extends Component {
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
             return (
-              buyCommodity +
               buyHammer +
               changecastle +
               finishAct +

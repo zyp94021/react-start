@@ -46,7 +46,7 @@ const userDetailInfoCol = [
     dataIndex: 'guildContribution',
     key: 'guildContribution',
   },
-  { title: '队列数量', dataIndex: 'queueCount', key: 'queueCount' },
+  { title: '锤子', dataIndex: 'queueCount', key: 'queueCount' },
   { title: '护盾状态', dataIndex: 'shield', key: 'shield' },
   { title: '兵营等级', dataIndex: 'campLV', key: 'campLV' },
   { title: '城防等级', dataIndex: 'defenceLV', key: 'defenceLV' },
@@ -127,7 +127,7 @@ class UserInfo extends Component {
               guildContribution:
                 (data.guild && data.guild.alter && data.guild.alter.faith) ||
                 '无',
-              queueCount: data.user.queue_limit,
+              queueCount: data.user.hammer,
               shield:
                 data.activities.findIndex(item => {
                   return item.type == 8

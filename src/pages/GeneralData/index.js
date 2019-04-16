@@ -78,13 +78,12 @@ class GeneralData extends Component {
     this.setState({ tableData, loading: false })
   }
   getTodayData = async () => {
-    const start = moment(new Date())
-      .toDate()
-      .setHours(0, 0, 0, 0)
     const end = moment(new Date())
-      .add(1, 'days')
       .toDate()
       .setHours(0, 0, 0, 0)
+    const start = moment(end)
+      .subtract(1, 'days')
+      .toDate().getTime()
     const [[data]] = await getGeneralData({
       end,
       start,

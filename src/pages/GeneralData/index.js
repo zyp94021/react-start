@@ -21,7 +21,7 @@ const todayData = {
     title: '付费金额',
     data: 0,
   },
-  data5: {
+  tradebuy: {
     title: '交易总流水',
     data: 0,
   },
@@ -98,7 +98,17 @@ class GeneralData extends Component {
     const buyHammer = costfunc.buyHammer || 0
     const changecastle = costfunc.changecastle || 0
     const finishAct = costfunc.finishAct || 0
-    todayData.data4.data = buyCommodity + buyHammer + changecastle + finishAct
+    const createguild = costfunc.createguild || 0
+    const covercastle = costfunc.covercastle || 0
+    const changeGuild = costfunc.changeGuild || 0
+    todayData.data4.data =
+      buyCommodity +
+      buyHammer +
+      changecastle +
+      finishAct +
+      createguild +
+      covercastle +
+      changeGuild
     this.setState({ todayData })
   }
 
@@ -150,7 +160,18 @@ class GeneralData extends Component {
             const buyHammer = costfunc.buyHammer || 0
             const changecastle = costfunc.changecastle || 0
             const finishAct = costfunc.finishAct || 0
-            return buyCommodity + buyHammer + changecastle + finishAct
+            const createguild = costfunc.createguild || 0
+            const covercastle = costfunc.covercastle || 0
+            const changeGuild = costfunc.changeGuild || 0
+            return (
+              buyCommodity +
+              buyHammer +
+              changecastle +
+              finishAct +
+              createguild +
+              covercastle +
+              changeGuild
+            )
           } else {
             return 0
           }
@@ -203,7 +224,7 @@ class GeneralData extends Component {
       },
       {
         title: '交易所',
-        dataIndex: 'sell',
+        dataIndex: 'tradebuy',
         render: text => {
           return text || 0
         },
@@ -214,10 +235,22 @@ class GeneralData extends Component {
         render: (text, record) => {
           if (record.costfunc) {
             const costfunc = record.costfunc
+            const buyCommodity = costfunc.buyCommodity || 0
             const buyHammer = costfunc.buyHammer || 0
             const changecastle = costfunc.changecastle || 0
             const finishAct = costfunc.finishAct || 0
-            return buyHammer + changecastle + finishAct
+            const createguild = costfunc.createguild || 0
+            const covercastle = costfunc.covercastle || 0
+            const changeGuild = costfunc.changeGuild || 0
+            return (
+              buyCommodity +
+              buyHammer +
+              changecastle +
+              finishAct +
+              createguild +
+              covercastle +
+              changeGuild
+            )
           } else {
             return 0
           }

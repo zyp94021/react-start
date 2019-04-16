@@ -31,7 +31,7 @@ class UserCTHoldings extends Component {
     v.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         this.setState({ loading: true })
 
         var [data] = await getUserAddress()

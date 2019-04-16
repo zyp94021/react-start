@@ -63,11 +63,16 @@ class SendMail extends Component {
     const keys = form.getFieldValue('attachment_key')
     const keys2 = form.getFieldValue('attachmentcount_key')
     if (!keys || !keys2) return
-    const v = form
-      .getFieldValue('attachment')
-      .concat({ index: index++, id: keys, count: keys2 })
+    let attachment = form.getFieldValue('attachment')
+    const exits = attachment.find(item => item.id === keys)
+    if (exits) {
+      exits.count += keys2
+    } else {
+      attachment = [...attachment, { index: index++, id: keys, count: keys2 }]
+    }
+
     form.setFieldsValue({
-      attachment: v,
+      attachment,
     })
   }
   removeAttachment = k => {
@@ -236,6 +241,7 @@ class SendMail extends Component {
                     onClick={() => this.removeAttachment(item)}
                     twoToneColor={'#CC0000'}
                   />
+                  {item.count}
                 </List.Item>
               )}
             />

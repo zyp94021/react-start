@@ -102,7 +102,7 @@ class GeneralData extends Component {
     const covercastle = costfunc.covercastle || 0
     const changeGuild = costfunc.changeGuild || 0
     const tradebuy = costfunc.tradebuy || 0
-    todayData.data4.data =
+    const sum =
       buyCommodity +
       buyHammer +
       changecastle +
@@ -111,7 +111,8 @@ class GeneralData extends Component {
       covercastle +
       changeGuild +
       tradebuy
-    todayData.tradebuy.data = tradebuy
+    todayData.data4.data = Math.round(sum * 10000) / 10000
+    todayData.tradebuy.data = Math.round(tradebuy * 10000) / 10000
     this.setState({ todayData })
   }
 
@@ -167,7 +168,7 @@ class GeneralData extends Component {
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
             const tradebuy = costfunc.tradebuy || 0
-            return (
+            const sum =
               buyCommodity +
               buyHammer +
               changecastle +
@@ -176,7 +177,7 @@ class GeneralData extends Component {
               covercastle +
               changeGuild +
               tradebuy
-            )
+            return Math.round(sum * 10000) / 10000
           } else {
             return 0
           }
@@ -217,7 +218,7 @@ class GeneralData extends Component {
           if (record.costfunc) {
             const costfunc = record.costfunc
             const buyCommodity = costfunc.buyCommodity || 0
-            return buyCommodity
+            return Math.round(buyCommodity * 10000) / 10000
           } else {
             return 0
           }
@@ -234,7 +235,7 @@ class GeneralData extends Component {
           if (record.costfunc) {
             const costfunc = record.costfunc
             const tradebuy = costfunc.tradebuy || 0
-            return tradebuy
+            return Math.round(tradebuy * 10000) / 10000
           } else {
             return 0
           }
@@ -252,14 +253,14 @@ class GeneralData extends Component {
             const createguild = costfunc.createguild || 0
             const covercastle = costfunc.covercastle || 0
             const changeGuild = costfunc.changeGuild || 0
-            return (
+            const sum =
               buyHammer +
               changecastle +
               finishAct +
               createguild +
               covercastle +
               changeGuild
-            )
+            return Math.round(sum * 10000) / 10000
           } else {
             return 0
           }

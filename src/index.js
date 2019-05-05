@@ -17,6 +17,10 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   eosplayer.switchNetwork('dev')
 }
+const data = { a: 1, b: 2, c: 3 }
+Object.entries(data).map(item => {
+  console.log(item)
+})
 ReactDOM.render(
   <LocaleProvider locale={zhCN}>
     <App />

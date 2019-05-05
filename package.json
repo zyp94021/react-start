@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development",
-    "start:mock": "set MOCK_ENV=true && webpack-dev-server --mode development"
+    "build": "webpack --mode production --config webpack.pro.js",
+    "start": "webpack-dev-server --mode development --config webpack.dev.js",
+    "start:mock": "set MOCK_ENV=true && webpack-dev-server --mode development --config webpack.dev.js"
   },
   "author": "",
   "license": "ISC",

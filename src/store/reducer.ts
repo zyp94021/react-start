@@ -13,10 +13,9 @@ export const user = (state = {}, action: AnyAction) => {
 }
 export const token = (token: string = '', action: AnyAction) => {
   switch (action.type) {
-    case ActionTypes.loginRequest:
     case ActionTypes.loginSuccess:
-    case ActionTypes.loginFail:
       return action.payload.token as string
+    case ActionTypes.loginFail:
     default:
       return token
   }

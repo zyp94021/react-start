@@ -20,19 +20,19 @@ export const loginFail = payload => ({
   payload,
 })
 export const getTodo = () => async dispatch => {
-  const result = await get('http://localhost:3001/all')
+  const result = await get('http://acgc.fun:3001/all')
   dispatch(
     addTodo(result.map(item => ({ id: item.id, message: item.message }))),
   )
 }
 export const postAddTodo = payload => async dispatch => {
-  const { id, message } = await post('http://localhost:3001/add', {
+  const { id, message } = await post('http://acgc.fun:3001/add', {
     message: payload,
   })
   dispatch(addTodo([{ id, message }]))
 }
 export const postDeleteTodo = payload => async dispatch => {
-  const { id } = await post('http://localhost:3001/delete', {
+  const { id } = await post('http://acgc.fun:3001/delete', {
     id: payload,
   })
   dispatch(deleteTodo(id))

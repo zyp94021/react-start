@@ -34,8 +34,10 @@ class Login extends React.Component<LoginProps, LoginState> {
   login = async () => {
     const username = this.state.username
     const password = this.state.password
-    store.dispatch(loginSuccess({ user: { name: username }, token: username }))
-    console.log(store.getState())
+    // store.dispatch(loginSuccess({ user: { name: username }, token: username }))
+    // console.log(store.getState())
+    console.log(123)
+    store.dispatch(loginRequest({ username, password }))
     // const result: any = await login({ username, password })
     // if (result.code === 200) {
     //   eventBus.emitEvent('login', {

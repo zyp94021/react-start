@@ -6,10 +6,7 @@ import rootSaga from './sagas'
 
 import state from './state'
 const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
-  reducer,
-  state,
-  applyMiddleware(thunkMiddleware, sagaMiddleware),
-)
+const enhancer = applyMiddleware(thunkMiddleware, sagaMiddleware)
+const store = createStore(reducer, state, enhancer)
 sagaMiddleware.run(rootSaga)
-export { store }
+export default store

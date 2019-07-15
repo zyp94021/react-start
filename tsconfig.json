@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es6",
     "module": "esnext",
     "jsx": "react",
     "lib": ["es6", "dom"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "sourceMap": true
   }
 }

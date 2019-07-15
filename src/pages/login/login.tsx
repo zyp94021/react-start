@@ -5,14 +5,18 @@ import './login.less'
 import { Button, Form, Input, Icon } from 'antd'
 import { login, register } from '../../api/login'
 import { FormComponentProps } from 'antd/lib/form'
-import { store } from '../../store/store'
-import { loginRequest, loginSuccess } from '../../store/action'
+import { loginRequest, loginSuccess, getTodo } from '../../store/action'
+import { DispatchProp, connect } from 'react-redux'
 interface LoginState {
   username: string
   password: string
   repassword: string
 }
-interface LoginProps extends RouteComponentProps, FormComponentProps {}
+interface LoginProps
+  extends RouteComponentProps,
+    FormComponentProps,
+    DispatchProp {}
+
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props) {
     super(props)
@@ -37,7 +41,8 @@ class Login extends React.Component<LoginProps, LoginState> {
     // store.dispatch(loginSuccess({ user: { name: username }, token: username }))
     // console.log(store.getState())
     console.log(123)
-    store.dispatch(loginRequest({ username, password }))
+    const dispatch: any = this.props.dispatch
+    dispatch(loginRequest({ username, password }))
     // const result: any = await login({ username, password })
     // if (result.code === 200) {
     //   eventBus.emitEvent('login', {
@@ -97,4 +102,4 @@ class Login extends React.Component<LoginProps, LoginState> {
     )
   }
 }
-export default withRouter(Form.create()(Login) as any)
+export default connect()(withRouter(Form.create()(Login) as any))

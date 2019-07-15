@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const apiMocker = require('mocker-api')
 module.exports = {
   entry: './src/index.tsx',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
